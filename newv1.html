@@ -1,0 +1,1775 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>newv1</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --ink: #1a1f36;
+      --text: #353a44;
+      --muted: #687385;
+      --line: #e3e8ee;
+      --panel: #f6f8fa;
+      --accent: #262626;
+      --accent-btn: #262626;
+      --banner: #cc4b00;
+      --toggle: #ff7a45;
+      --font: "Figtree", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+    html { -webkit-text-size-adjust: 100%; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: #fff;
+      color: var(--ink);
+      font-family: var(--font);
+      font-size: 14px;
+      line-height: 1.4;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    h1, h2, h3, p { margin: 0; }
+    a { color: inherit; text-decoration: none; }
+    button { font: inherit; color: inherit; background: none; border: 0; padding: 0; cursor: pointer; text-align: left; }
+    svg { display: block; flex: none; }
+    ul { list-style: none; margin: 0; padding: 0; }
+    :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 6px; }
+
+    .ico { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
+
+    /* ---------- Shell ---------- */
+    .shell {
+      display: grid;
+      grid-template-columns: 272px minmax(0, 1fr);
+      min-height: 100vh;
+      background: #fff;
+      overflow-x: clip;
+    }
+
+    /* ---------- Sidebar ---------- */
+    .side {
+      position: sticky;
+      top: 0;
+      align-self: start;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      padding: 0 20px 20px;
+      border-right: 1px solid var(--line);
+    }
+
+    .side__org {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      height: 56px;
+      margin-top: 4px;
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--ink);
+    }
+    .side__org .ico { color: var(--muted); }
+
+    .nav { margin-top: 34px; }
+    .nav__item {
+      display: flex;
+      align-items: center;
+      gap: 13px;
+      width: 100%;
+      height: 29px;
+      margin-bottom: 1px;
+      padding-inline: 0 4px;
+      font-size: 15px;
+      color: var(--text);
+    }
+    .nav__item .ico { color: #6b7385; }
+    .nav__item:hover { color: var(--ink); }
+    .nav__item.is-active { margin-inline: -8px; padding-inline: 8px; border-radius: 7px; background: #ececec; color: var(--ink); font-weight: 600; }
+    .nav__item.is-active .ico { color: var(--ink); }
+    .quick { margin-top: auto; }
+    .quick .nav__item { height: auto; min-height: 29px; padding-block: 3px; font-size: 14px; white-space: nowrap; color: #7b8190; }
+    .quick .nav__item:hover { color: var(--ink); }
+    .quick .side__label { margin: 0 0 8px; font-size: 13px; }
+    .nav__chev { margin-left: auto; width: 16px; height: 16px; color: #6b7385; }
+
+    .side__label { margin: 28px 0 10px; font-size: 14px; color: var(--muted); }
+    .side__dev { margin-top: auto; }
+
+    /* ---------- Main ---------- */
+    .main { min-width: 0; padding: 0 40px 60px; }
+
+    .top {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      height: 56px;
+      margin-top: 2px;
+    }
+
+    .top__right { display: flex; align-items: center; gap: 22px; margin-left: auto; color: #4f566b; }
+    .bell { position: relative; }
+    .bell::after { content: ""; position: absolute; top: -2px; right: -2px; width: 7px; height: 7px; border-radius: 50%; background: #1f7aff; border: 1.5px solid #fff; }
+    .plus { display: grid; place-items: center; width: 28px; height: 28px; border-radius: 50%; background: var(--accent-btn); color: #fff; }
+    .plus .ico { width: 16px; height: 16px; stroke-width: 2.4; }
+
+    /* ---------- Hero ---------- */
+    .hero { position: relative; margin-top: 32px; padding-right: 0; }
+    .hero h1 { font-size: 28px; font-weight: 700; line-height: 1.2; letter-spacing: -.01em; }
+    .hero p { margin-top: 8px; max-width: 800px; font-size: 16px; line-height: 1.5; color: var(--muted); }
+    .hero__chart { position: absolute; top: 50%; right: 0; display: flex; align-items: center; gap: 20px; margin: 0; padding: 14px 20px 14px 16px; border: 1px solid var(--line); border-radius: 10px; background: #fff; box-shadow: 0 1px 2px rgba(60, 66, 87, .06); transform: translateY(-50%); }
+    .donut { flex: none; width: 88px; height: 88px; }
+    .donut circle { stroke: var(--c); }
+    .donut__cap { margin-bottom: 8px; font-size: 12px; font-weight: 500; line-height: 1.3; color: var(--muted); }
+    .donut__key { display: grid; gap: 4px; min-width: 120px; }
+    .donut__key li { display: flex; align-items: center; gap: 8px; font-size: 13px; line-height: 16px; color: var(--text); }
+    .donut__key i { flex: none; width: 8px; height: 8px; border-radius: 50%; background: var(--c); }
+    .donut__key b { margin-left: auto; padding-left: 14px; font-weight: 600; font-variant-numeric: tabular-nums; color: var(--ink); }
+    .dn--overdue { --c: #ea8a3a; }
+    .dn--critical { --c: #e0384a; }
+
+    /* ---------- Open findings table ---------- */
+    .findings { margin-top: 40px; }
+    .findings__head { display: flex; align-items: center; gap: 10px; margin: 14px 0 2px; font-size: 14px; font-weight: 500; color: var(--ink); }
+    .findings__head span { padding: 3px 9px; border-radius: 6px; background: var(--panel); }
+    .findings__head b { font-weight: 400; color: var(--muted); }
+    .ftools { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; padding-bottom: 12px; border-bottom: 1px solid #edf0f4; }
+    .fpills, .facts { display: flex; flex-wrap: wrap; gap: 8px; }
+    .pillbtn { display: inline-flex; align-items: center; gap: 6px; height: 28px; padding-inline: 10px 12px; border: 1px solid #d5dbe4; border-radius: 999px; background: #fff; font-size: 13px; color: var(--ink); }
+    .pillbtn .ico { width: 15px; height: 15px; color: #6b7385; }
+    .tbtn { display: inline-flex; align-items: center; gap: 7px; height: 30px; padding-inline: 11px; border: 1px solid #d5dbe4; border-radius: 6px; background: #fff; font-size: 13.5px; font-weight: 500; color: var(--ink); box-shadow: 0 1px 1px rgba(60, 66, 87, .06); }
+    .tbtn .ico { width: 15px; height: 15px; color: #4f566b; }
+    .pillbtn:hover, .tbtn:hover { background: #f7f8fa; }
+    .fbar { display: flex; align-items: center; gap: 10px; margin: 0 0 12px; padding: 8px 10px; border-radius: 8px; background: #f7f8fa; }
+    .seg { display: inline-flex; gap: 2px; padding: 3px; border-radius: 8px; background: #eceff3; }
+    .seg__btn { padding: 4px 11px; border-radius: 6px; font-size: 12.5px; font-weight: 500; color: #5b6477; transition: background-color .12s ease, color .12s ease; }
+    .seg__btn:hover { color: var(--ink); }
+    .seg__btn.is-on { background: #fff; color: var(--ink); box-shadow: 0 1px 2px rgba(60, 66, 87, .14); }
+    .fsearch { display: flex; align-items: center; gap: 8px; flex: 1; min-width: 0; height: 30px; padding-inline: 10px; border: 1px solid #e3e8ee; border-radius: 6px; background: #fff; color: #6b7385; }
+    .fsearch .ico { width: 15px; height: 15px; }
+    .fsearch input { flex: 1; min-width: 0; border: 0; outline: 0; background: none; font: inherit; font-size: 13px; color: var(--ink); }
+    .fsearch input::placeholder { color: #8792a2; }
+    .fsearch:focus-within { border-color: var(--accent-btn); box-shadow: 0 0 0 3px rgba(38, 38, 38, .15); }
+    .ftable tbody tr[hidden] { display: none; }
+    .ftable .empty td { padding: 28px 12px; text-align: center; color: var(--muted); }
+    .fpills { position: relative; }
+    .pillbtn.is-active { border-color: var(--accent-btn); background: #f3f3f3; color: #262626; font-weight: 500; }
+    .fpop { position: absolute; z-index: 30; width: 224px; padding: 12px; border: 1px solid #e3e8ee; border-radius: 10px; background: #fff; box-shadow: 0 6px 20px rgba(26, 31, 54, .12); font-size: 13px; }
+    .fpop[hidden] { display: none; }
+    .fpop h3 { margin: 0 0 8px; font-size: 13px; font-weight: 600; line-height: 1.3; color: var(--ink); }
+    .fpop__list { display: grid; gap: 0; margin-bottom: 10px; }
+    .fchk { display: flex; align-items: center; gap: 9px; padding: 6px 0; font-size: 13.5px; line-height: 1.3; color: var(--ink); cursor: pointer; }
+    .fchk:hover span { color: #000; }
+    .fchk input { appearance: none; -webkit-appearance: none; flex: none; width: 16px; height: 16px; margin: 0; border: 1.5px solid #cfd4dc; border-radius: 4px; background: #fff; cursor: pointer; transition: background-color .12s ease, border-color .12s ease; }
+    .fchk input:checked { border-color: var(--accent-btn); background: var(--accent-btn) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='none' stroke='white' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m4.5 10.5 3.5 3.5 7.5-8'/%3E%3C/svg%3E") center / 11px no-repeat; }
+    .fchk input:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+    .fpop--right { right: 0; left: auto; }
+    .fchk input:disabled { opacity: .4; cursor: not-allowed; }
+    .fchk input:disabled + span { color: var(--muted); }
+    .ftable.hide-2 th:nth-child(2), .ftable.hide-2 td:nth-child(2),
+    .ftable.hide-3 th:nth-child(3), .ftable.hide-3 td:nth-child(3),
+    .ftable.hide-4 th:nth-child(4), .ftable.hide-4 td:nth-child(4),
+    .ftable.hide-5 th:nth-child(5), .ftable.hide-5 td:nth-child(5) { display: none; }
+    .fpop__apply { width: 100%; height: 32px; border-radius: 6px; background: var(--accent-btn); color: #fff; font-size: 13px; font-weight: 500; text-align: center; transition: background-color .15s ease; }
+    .fpop__apply:hover { background: #404040; }
+    /* ---------- Finding detail panel ---------- */
+    .ftable tbody tr:not(.empty) { cursor: pointer; }
+    .ftable tbody tr.is-selected { background: #f3f3f3; }
+    .dp { position: fixed; z-index: 40; top: 0; right: 0; bottom: 0; display: flex; flex-direction: column; width: min(440px, 100vw); background: #fff; border-left: 1px solid var(--line); box-shadow: -12px 0 32px rgba(26, 31, 54, .10); visibility: hidden; opacity: 0; transform: translateX(28px); transition: transform .22s ease, opacity .18s ease, width .2s ease, visibility 0s linear .22s; }
+    .dp.is-open { visibility: visible; opacity: 1; transform: none; transition-delay: 0s; }
+    .dp__bar { display: flex; flex: none; align-items: center; justify-content: flex-end; gap: 2px; height: 52px; padding: 0 16px; }
+    .dbtn { display: grid; place-items: center; width: 30px; height: 30px; border-radius: 6px; color: #4f566b; }
+    .dbtn:hover { background: #f1f3f7; color: var(--ink); }
+    .dbtn .ico { width: 17px; height: 17px; }
+    .dp__scroll { flex: 1; overflow-y: auto; padding: 0 24px 36px; }
+    .dp__title { font-size: 17px; font-weight: 700; line-height: 1.35; letter-spacing: -.005em; color: var(--ink); }
+    .dp-props { display: grid; gap: 2px; margin: 18px 0 0; }
+    .dp-prop { display: grid; grid-template-columns: 104px minmax(0, 1fr); align-items: center; min-height: 36px; }
+    .dp-prop dt { display: flex; align-items: center; gap: 9px; font-size: 13.5px; color: var(--muted); }
+    .dp-prop dt .ico { width: 16px; height: 16px; color: #6b7385; }
+    .dp-prop dd { display: flex; align-items: center; gap: 8px; min-width: 0; margin: 0; font-size: 14px; color: var(--ink); }
+    .dp-tabs { display: flex; gap: 20px; margin-top: 22px; border-bottom: 1px solid var(--line); }
+    .dp-tab { position: relative; padding: 10px 0 11px; font-size: 13.5px; color: var(--muted); }
+    .dp-tab:hover { color: var(--ink); }
+    .dp-tab[aria-selected="true"] { font-weight: 500; color: var(--ink); }
+    .dp-tab[aria-selected="true"]::after { content: ""; position: absolute; right: 0; bottom: -1px; left: 0; height: 2px; border-radius: 2px; background: var(--accent-btn); }
+    .dp-pn[hidden] { display: none; }
+    .dp-sec { margin-top: 22px; }
+    .dp-sec h3 { margin: 0 0 8px; font-size: 14.5px; font-weight: 600; color: var(--ink); }
+    .dp-q { margin: 18px 0 0; font-size: 14px; font-weight: 600; line-height: 1.4; color: var(--ink); }
+    .dp-sec .dp-q:first-of-type { margin-top: 0; }
+    .dp-p { margin: 4px 0 0; font-size: 14px; line-height: 1.6; color: #3b4252; }
+    .dp-list { display: grid; gap: 12px; margin: 12px 0 0; padding: 0; list-style: none; }
+    .dp-list li { display: grid; grid-template-columns: 22px minmax(0, 1fr); gap: 10px; font-size: 14px; line-height: 1.55; color: #3b4252; }
+    .dp-list li::before { content: ""; width: 8px; height: 8px; margin-top: 7px; justify-self: center; border-radius: 50%; background: #bfbfbf; }
+    .dp-note { margin: 16px 0 0; font-size: 12.5px; line-height: 1.5; color: var(--muted); }
+    .dp-q + .dp-list { margin-top: 8px; }
+    .dp-tl { margin: 16px 0 0; padding: 0; list-style: none; }
+    .dp-tl li { position: relative; padding: 0 0 24px 28px; }
+    .dp-tl li:last-child { padding-bottom: 0; }
+    .dp-tl li::before { content: ""; position: absolute; top: 18px; bottom: -4px; left: 5px; border-left: 1.5px dashed #d5dbe4; }
+    .dp-tl li:last-child::before { display: none; }
+    .dp-tl__dot { position: absolute; top: 5px; left: 0; box-sizing: border-box; width: 12px; height: 12px; border: 2px solid var(--accent-btn); border-radius: 50%; background: #fff; }
+    .dp-tl p { margin: 0; font-size: 14px; line-height: 1.55; color: var(--ink); }
+    .dp-tl p b { font-weight: 600; }
+    .dp-tl__when { margin-top: 3px; font-size: 12.5px; line-height: 1.4; color: #98a1b2; }
+    .dp-scrim { position: fixed; inset: 0; z-index: 39; background: rgba(26, 31, 54, .38); opacity: 0; visibility: hidden; transition: opacity .2s ease, visibility 0s linear .2s; }
+    .dp-scrim.is-open { opacity: 1; visibility: visible; transition-delay: 0s; }
+    .dp__foot { display: flex; flex: none; align-items: center; gap: 6px; padding: 12px 24px; border-top: 1px solid var(--line); background: #fff; }
+    .dp__foot .tbtn { height: 32px; padding-inline: 10px; font-size: 13px; white-space: nowrap; }
+    .dp__foot .tbtn--primary { border-color: var(--accent-btn); background: var(--accent-btn); color: #fff; box-shadow: none; }
+    .dp__foot .tbtn--primary:hover { border-color: #404040; background: #404040; }
+    .dp__foot .tbtn:disabled { opacity: .45; cursor: default; }
+    .dp__foot .tbtn--primary:disabled:hover { background: var(--accent-btn); }
+    .dp__foot .dp__state { margin-left: auto; }
+    /* ---------- Full finding page (opened from the panel's Open button) ---------- */
+    #detail { position: fixed; z-index: 60; inset: 0; overflow-y: auto; background: #fff; }
+    #detail[hidden] { display: none; }
+    #detail .ico { width: 16px; height: 16px; }
+    .fd-bar { position: sticky; top: 0; z-index: 10; display: grid; grid-template-columns: 1fr minmax(0, 560px) 1fr; align-items: center; height: 56px; padding: 0 24px; border-bottom: 1px solid var(--line); background: #fff; }
+    .fd-bar .tbtn { justify-self: start; }
+    .fd-bar__link { justify-self: end; display: grid; place-items: center; width: 30px; height: 30px; border-radius: 6px; color: #4f566b; }
+    .fd-bar__link:hover { background: #f1f3f7; color: var(--ink); }
+    .fd-bar__title { display: flex; align-items: center; justify-content: center; gap: 8px; min-width: 0; font-size: 14px; font-weight: 500; }
+    .fd-bar__name { font-weight: 400; min-width: 0; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+    .fd-bar__id { flex: none; padding: 2px 7px; border-radius: 5px; background: var(--panel); font-size: 12px; font-weight: 400; color: var(--muted); }
+    .fd-page { display: grid; grid-template-columns: minmax(0, 1fr) 300px; gap: 56px; max-width: 1120px; margin: 0 auto; padding: 36px 40px 36px; align-items: start; }
+    .fd-ttl { font-size: 24px; font-weight: 700; line-height: 1.25; letter-spacing: -.01em; }
+    .fd-tags { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-top: 14px; }
+    .fd-tag { display: inline-flex; align-items: center; gap: 6px; height: 24px; margin-left: 6px; font-size: 13px; color: var(--text); }
+    .fd-tags .stat, .fd-tags .chip { display: inline-flex; align-items: center; height: 24px; padding-inline: 8px; border-radius: 5px; font-size: 12.5px; font-weight: 500; }
+    .fd-tag .ico { width: 13px; height: 13px; color: #6b7385; }
+    .fd-tags .prio { margin-left: 6px; gap: 6px; font-size: 13px; color: var(--text); }
+    .fd-tags .prio .flag { width: 14px; height: 14px; }
+    .fd-desc { margin-top: 24px; padding-bottom: 24px; border-bottom: 1px solid var(--line); font-size: 14.5px; line-height: 1.65; color: #3b4252; }
+    .fd-sec { margin: 36px 0 14px; font-size: 20px; font-weight: 700; letter-spacing: -.01em; color: var(--ink); }
+    .fd-cards { display: grid; gap: 12px; }
+    .fd-card { padding: 16px 18px; border: 1px solid var(--line); border-radius: 10px; background: #fff; box-shadow: 0 1px 2px rgba(60, 66, 87, .05); }
+    .fd-card__head { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+    .fd-card__t { font-size: 14.5px; font-weight: 600; color: var(--ink); }
+    .fd-card__d { margin-top: 4px; font-size: 13.5px; line-height: 1.55; color: var(--muted); }
+    .fd-card .dp-list { margin-top: 10px; }
+    .fd-card .dp-list li { font-size: 13.5px; color: var(--muted); }
+    .chip--find { background: #cfe0fb; color: #1d4ea3; }
+    .chip--imp { background: #fbc9e0; color: #8a1f58; }
+    .chip--act { background: #d9d3f7; color: #3b2f8f; }
+    .chip--ev { background: #cdf5b0; color: #2a6a14; }
+    .fd-evi { margin-top: 12px; padding: 18px; }
+    .fd-evi h3 { margin: 12px 0 2px; font-size: 15px; font-weight: 600; }
+    .fd-evi__rows { display: grid; gap: 8px; margin-top: 16px; }
+    .fd-evi__row { display: flex; align-items: center; justify-content: space-between; gap: 16px; min-height: 40px; padding: 8px 14px; border: 1px solid #edf0f4; border-radius: 8px; background: #fbfcfd; font-size: 13.5px; color: var(--text); }
+    .fd-evi__row b { flex: none; font-weight: 600; font-variant-numeric: tabular-nums; color: var(--ink); text-align: right; }
+    .fd-evi__src { margin-top: 12px; font-size: 12.5px; color: var(--muted); }
+    .fd-side { display: grid; gap: 14px; position: sticky; top: 80px; }
+    .fd-mini { padding: 14px; border: 1px solid var(--line); border-radius: 10px; }
+    .fd-mini__top { display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; }
+    .fd-dd { position: relative; }
+    .fd-rng { display: inline-flex; align-items: center; gap: 7px; height: 28px; padding-inline: 11px 8px; border: 1px solid #d5dbe4; border-radius: 6px; background: #fff; font-size: 13px; font-weight: 500; white-space: nowrap; color: var(--ink); box-shadow: 0 1px 1px rgba(60, 66, 87, .06); }
+    .fd-rng:hover { background: #f7f8fa; }
+    .fd-rng[aria-expanded="true"] { border-color: var(--accent-btn); box-shadow: 0 0 0 3px rgba(38, 38, 38, .15); }
+    .fd-rng .ico { width: 14px; height: 14px; margin: 0; color: #4f566b; }
+    .fd-rngmenu { position: absolute; z-index: 5; top: 34px; right: 0; width: 188px; padding: 8px 12px; border: 1px solid #e3e8ee; border-radius: 10px; background: #fff; box-shadow: 0 6px 20px rgba(26, 31, 54, .12); }
+    .fd-rngmenu[hidden] { display: none; }
+    .fd-opt { display: flex; align-items: center; gap: 9px; width: 100%; padding: 6px 0; font-size: 13.5px; line-height: 1.3; color: var(--ink); }
+    .fd-opt:hover span { color: #000; }
+    .fd-opt i { flex: none; width: 16px; height: 16px; border: 1.5px solid #cfd4dc; border-radius: 50%; background: #fff; transition: background-color .12s ease, border-color .12s ease; }
+    .fd-opt[aria-selected="true"] i { border-color: var(--accent-btn); background: var(--accent-btn) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='none' stroke='white' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m4.5 10.5 3.5 3.5 7.5-8'/%3E%3C/svg%3E") center / 11px no-repeat; }
+    .fd-opt:focus-visible { outline-offset: 2px; }    .fd-mini__k { max-width: 190px; font-size: 12px; line-height: 1.35; color: var(--muted); }
+    .fd-mini__v { margin-top: 2px; font-size: 22px; font-weight: 700; letter-spacing: -.01em; }
+    .fd-mini { display: flex; flex-direction: column; }
+    .fd-chart { position: relative; flex: 1; min-height: 56px; margin-top: 14px; }
+    .fd-chart svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+    .fd-chart__dot { position: absolute; right: 0; box-sizing: border-box; width: 10px; height: 10px; margin: -5px -5px 0 0; border: 2px solid #262626; border-radius: 50%; background: #fff; box-shadow: 0 0 0 3px rgba(38, 38, 38, .12); }
+    .fd-mini__ax { display: flex; justify-content: space-between; margin-top: 4px; font-size: 11px; color: #98a1b2; }
+    .fd-box { display: grid; gap: 8px; padding: 12px; border: 1px solid #ececec; border-radius: 10px; background: #f5f5f5; box-shadow: 0 1px 2px rgba(60, 66, 87, .05); }
+    .fd-owner { padding: 12px 14px; border: 1px solid var(--line); border-radius: 10px; background: #fff; }
+    .fd-owner__k { font-size: 12px; color: var(--muted); }
+    .fd-owner__t { margin-top: 6px; font-size: 14px; line-height: 1.55; color: var(--ink); }
+    .fd-acts { display: grid; gap: 8px; }
+    .fd-act-btn { height: 40px; border: 1px solid #d5dbe4; border-radius: 999px; background: #fff; font-size: 13.5px; font-weight: 600; text-align: center; color: var(--ink); transition: background-color .12s ease; }
+    .fd-act-btn:hover { background: #f7f8fa; }
+    .fd-act-btn:disabled { opacity: .45; cursor: default; background: #fff; }
+    .rd-scrim { position: fixed; inset: 0; z-index: 69; background: rgba(26, 31, 54, .38); opacity: 0; visibility: hidden; transition: opacity .2s ease, visibility 0s linear .2s; }
+    .rd-scrim.is-open { opacity: 1; visibility: visible; transition-delay: 0s; }
+    .rd { position: fixed; z-index: 70; top: 0; right: 0; bottom: 0; display: flex; flex-direction: column; width: min(440px, 100vw); background: #fff; border-left: 1px solid var(--line); box-shadow: -12px 0 32px rgba(26, 31, 54, .10); visibility: hidden; opacity: 0; transform: translateX(28px); transition: transform .22s ease, opacity .18s ease, visibility 0s linear .22s; }
+    .rd.is-open { visibility: visible; opacity: 1; transform: none; transition-delay: 0s; }
+    .rd__bar { display: flex; align-items: center; justify-content: space-between; gap: 12px; height: 56px; padding: 0 16px 0 24px; border-bottom: 1px solid var(--line); }
+    .rd__bar h2 { font-size: 15px; font-weight: 600; }
+    .rd__body { display: flex; flex: 1; flex-direction: column; padding: 20px 24px 0; overflow-y: auto; }
+    .rd__lead { margin-bottom: 20px; font-size: 14px; font-weight: 600; line-height: 1.4; color: var(--ink); }
+    .rd__lbl { margin-bottom: 6px; font-size: 13px; font-weight: 500; color: var(--ink); }
+    .rd textarea { width: 100%; padding: 10px 12px; border: 1px solid #d5dbe4; border-radius: 6px; background: #fff; font: inherit; font-size: 14px; line-height: 1.55; color: var(--ink); resize: vertical; }
+    .rd textarea::placeholder { color: #8792a2; }
+    .rd textarea:focus { outline: 0; border-color: var(--accent-btn); box-shadow: 0 0 0 3px rgba(38, 38, 38, .15); }
+    .rd__count { margin-top: 6px; font-size: 12px; text-align: right; color: var(--muted); }
+    .rd__foot { display: flex; justify-content: flex-end; gap: 8px; margin: auto -24px 0; padding: 12px 24px; border-top: 1px solid var(--line); }
+    .rd .tbtn { height: 32px; padding-inline: 14px; font-size: 13px; }
+    .rd .tbtn--primary { border-color: var(--accent-btn); background: var(--accent-btn); color: #fff; box-shadow: none; }
+    .rd .tbtn--primary:hover { border-color: #404040; background: #404040; }
+    .rd .tbtn:disabled { opacity: .45; cursor: default; }
+    .fd-else { max-width: 1120px; margin: 0 auto; padding: 0 40px 72px; }
+    .fd-else__in { border-top: 1px solid var(--line); }
+    .fd-else__head { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; flex-wrap: wrap; margin-bottom: 14px; }
+    .fd-else__head .fd-sec { margin: 28px 0 0; }
+    .fd-else__head p { font-size: 13px; color: var(--muted); }
+    .fd-else__grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+    .fd-el { display: flex; flex-direction: column; gap: 14px; padding: 20px; border: 1px solid var(--line); border-radius: 16px; background: #fff; box-shadow: 0 1px 2px rgba(60, 66, 87, .05); }
+    .fd-el__k { font-size: 15px; font-weight: 600; color: var(--ink); }
+    .fd-el__s { margin-top: 2px; font-size: 12.5px; color: var(--muted); }
+    .fd-el__box { flex: 1; display: flex; flex-direction: column; gap: 8px; padding-top: 14px; border-top: 1px solid #edf0f4; }
+    .fd-el__tags { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
+    .fd-el__h { font-size: 14px; font-weight: 600; line-height: 1.4; color: var(--ink); }
+    .fd-el__p { font-size: 13px; line-height: 1.55; color: var(--muted); }
+    .fd-el__meta { font-size: 12.5px; color: var(--text); }
+    .fd-el__row { display: flex; align-items: center; justify-content: space-between; gap: 8px; font-size: 14px; font-weight: 600; color: var(--ink); }
+    .fd-el__row .prio { font-size: 13px; font-weight: 400; }
+    .fd-el__rule { border: 0; border-top: 1px solid #edf0f4; margin: 0; }
+    .fd-el__p b { font-weight: 600; color: var(--ink); }
+    .fd-el .tbtn { align-self: flex-start; margin-top: 6px; height: 30px; border-radius: 999px; padding-inline: 12px; font-size: 13px; }
+    @media (max-width: 900px) { .fd-else__grid { grid-template-columns: minmax(0, 1fr); } .fd-else { padding: 0 20px 56px; } }
+    .fd-owner { position: relative; }
+    .fd-more { position: absolute; top: 8px; right: 8px; display: grid; place-items: center; width: 28px; height: 28px; border-radius: 6px; color: #6b7385; }
+    .fd-more[hidden], .fd-morem[hidden] { display: none; }
+    .fd-more:hover, .fd-more[aria-expanded="true"] { background: #f1f3f7; color: var(--ink); }
+    .fd-morem { position: absolute; z-index: 5; top: 38px; right: 8px; width: 160px; padding: 6px; border: 1px solid #e3e8ee; border-radius: 10px; background: #fff; box-shadow: 0 6px 20px rgba(26, 31, 54, .12); }
+    .fd-morem button { display: block; width: 100%; padding: 7px 10px; border-radius: 6px; font-size: 13.5px; color: var(--ink); }
+    .fd-morem button[hidden] { display: none; }
+    .fd-morem button:hover { background: #f3f3f3; }
+    .fd-act-btn[data-act="ack"] { border-color: #262626; background: #262626; color: #fff; }
+    .fd-act-btn[data-act="ack"]:not(:disabled):hover { border-color: #404040; background: #404040; }
+    .fd-act-btn[hidden] { display: none; }
+    .fd-act-btn.is-past:disabled { opacity: 1; cursor: default; }
+    .toast { position: fixed; z-index: 80; left: 50%; bottom: 28px; display: flex; align-items: center; gap: 12px; width: max-content; max-width: min(540px, calc(100vw - 32px)); padding: 10px 10px 10px 12px; border: 1px solid var(--line); border-radius: 10px; background: #fff; box-shadow: 0 8px 24px rgba(26, 31, 54, .14); opacity: 0; transform: translate(-50%, 12px); pointer-events: none; transition: opacity .2s ease, transform .2s ease; --tone: var(--accent-btn); --tint: #ececec; }
+    .toast.is-on { opacity: 1; transform: translate(-50%, 0); pointer-events: auto; }
+    .toast[data-tone="success"] { --tone: #2f9e44; --tint: #dcf5e0; }
+    .toast[data-tone="neutral"] { --tone: #4d5362; --tint: #e6e8ec; }
+    .toast__ic { display: grid; place-items: center; flex: none; width: 28px; height: 28px; border-radius: 50%; background: var(--tint); color: var(--tone); }
+    .toast__ic .ico { width: 16px; height: 16px; stroke-width: 2; }
+    .toast__t { margin: 0; font-size: 13.5px; line-height: 1.4; color: var(--text); }
+    .toast__t b { font-weight: 600; color: var(--ink); }
+    .toast__x { display: grid; place-items: center; flex: none; width: 26px; height: 26px; margin-left: 4px; border-left: 1px solid var(--line); border-radius: 0 6px 6px 0; color: #6b7385; }
+    .toast__x:hover { color: var(--ink); }
+    .toast__x .ico { width: 15px; height: 15px; }
+    .fd-act { padding: 16px; border: 1px solid var(--line); border-radius: 10px; background: #fff; box-shadow: 0 1px 2px rgba(60, 66, 87, .05); }
+    .fd-act h3 { margin: 0 0 8px; font-size: 14.5px; font-weight: 600; color: var(--ink); }
+    @media (max-width: 900px) {
+      .fd-page { grid-template-columns: minmax(0, 1fr); gap: 32px; padding: 24px 20px 56px; }
+      .fd-side { position: static; }
+      .fd-bar { padding: 0 16px; }
+    }
+    @media (max-width: 560px) { .dp { width: 100vw; } }
+    @media (prefers-reduced-motion: reduce) { .dp, .dp-scrim, .rd, .rd-scrim { transition: none; } }
+    .tablewrap { overflow-x: auto; }
+    .ftable { width: 100%; min-width: 820px; table-layout: fixed; border-collapse: collapse; font-size: 14px; color: var(--ink); }
+    .ftable th { padding: 12px 12px 8px; font-size: 12.5px; font-weight: 400; text-align: left; color: var(--muted); white-space: nowrap; }
+    .ftable td { padding: 11px 12px; border-bottom: 1px solid #edf0f4; vertical-align: middle; white-space: nowrap; }
+    .ftable tbody tr:hover { background: #fafbfc; }
+    .t-cell .chip { flex: none; margin-left: -8px; }
+    .ftable th:nth-child(1) { width: 43%; }
+    .ftable th:nth-child(2) { width: 16%; }
+    .ftable th:nth-child(3) { width: 13%; }
+    .ftable th:nth-child(4) { width: 12%; }
+    .ftable th:nth-child(5) { width: 16%; }
+    .ftable td { overflow: hidden; text-overflow: ellipsis; }
+    .t-cell { display: flex; align-items: center; gap: 12px; min-width: 0; }
+    .t-text { flex: 0 1 auto; min-width: 0; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; border-radius: 3px; }
+    .t-text:focus-visible { outline-offset: 1px; }
+    .tip { position: fixed; z-index: 90; max-width: 340px; padding: 8px 11px; border-radius: 7px; background: #1a1f36; color: #fff; font-size: 13px; line-height: 1.4; box-shadow: 0 6px 18px rgba(26, 31, 54, .28); pointer-events: none; opacity: 0; transform: translateY(2px); transition: opacity .12s ease, transform .12s ease; }
+    .tip.is-on { opacity: 1; transform: none; }
+    .t-ico { flex: none; color: #4f566b; }
+    .t-ico .ico { width: 17px; height: 17px; }
+    .chip { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 12px; font-weight: 500; }
+    .chip--rel { background: #d9d3f7; color: #3b2f8f; }
+    .chip--safe { background: #bfe3dc; color: #1c5a50; }
+    .chip--spend { background: #fbc9e0; color: #8a1f58; }
+    .chip--value { background: #f6efb5; color: #6b5d0a; }
+    .due--late { color: #b7692a; }
+    .prio { display: inline-flex; align-items: center; gap: 7px; }
+    .flag { flex: none; width: 16px; height: 16px; }
+    .prio--high .flag { color: #f2b61e; }
+    .prio--critical .flag { color: #e0384a; }
+    .prio--low .flag { color: #b3b9c4; }
+    .stat { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 12px; font-weight: 500; }
+    .stat--open { background: #cfe0fb; color: #1d4ea3; }
+    .stat--overdue { background: #fbe3c4; color: #9a5a12; }
+    .stat--reopened { background: #d8dadf; color: #4d5362; }
+
+    /* ---------- Closed findings ---------- */
+    .findings--closed { margin-top: 44px; }
+    .findings--closed .findings__head { margin-top: 0; }
+    .fold { display: grid; place-items: center; width: 18px; height: 18px; margin-right: -4px; border-radius: 4px; color: #6b7385; }
+    .fold:hover { background: #eef1f5; }
+    .fold .chev { width: 14px; height: 14px; transition: transform .15s ease; }
+    .fold[aria-expanded="false"] .chev { transform: rotate(-90deg); }
+    .prio--medium .flag { color: #3b6df0; }
+    .stat--ack { background: #e6e8ec; color: #4d5362; }
+    .stat--fixed { background: #cdf5b0; color: #2a6a14; }
+    @media (max-width: 1100px) {
+      .hero { padding-right: 0; }
+      .hero__chart { display: none; }
+    }
+    @media (max-width: 760px) {
+      .shell { grid-template-columns: minmax(0, 1fr); }
+      .side { display: none; }
+      .main { padding-inline: 20px; }
+    }
+
+    /* ---------- Overview ---------- */
+    .ov-kpis { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; margin-top: 32px; }
+    .ov-kpi { padding: 16px 18px; border: 1px solid var(--line); border-radius: 12px; background: #fff; box-shadow: 0 1px 2px rgba(60, 66, 87, .05); }
+    .ov-kpi__k { display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--muted); }
+    .ov-kpi__k i { width: 8px; height: 8px; border-radius: 50%; background: var(--c, #b3b9c4); }
+    .ov-kpi__v { margin-top: 6px; font-size: 28px; font-weight: 700; letter-spacing: -.01em; line-height: 1.1; }
+    .ov-kpi__n { margin-top: 4px; font-size: 12.5px; color: var(--muted); }
+    .ov-grid { display: grid; grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr); gap: 16px; margin-top: 16px; }
+    .ov-grid--even { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .ov-card { display: flex; flex-direction: column; padding: 20px; border: 1px solid var(--line); border-radius: 16px; background: #fff; box-shadow: 0 1px 2px rgba(60, 66, 87, .05); }
+    .ov-card__k { font-size: 15px; font-weight: 600; color: var(--ink); }
+    .ov-card__s { margin-top: 2px; font-size: 12.5px; color: var(--muted); }
+    .ov-card .tbtn { align-self: flex-start; margin-top: auto; height: 30px; border-radius: 999px; padding-inline: 12px; font-size: 13px; }
+    .ov-list { margin: 14px 0 16px; border-top: 1px solid #edf0f4; }
+    .ov-item { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 4px 16px; align-items: center; padding: 12px 0; border-bottom: 1px solid #edf0f4; }
+    .ov-item__t { grid-column: 1; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; font-size: 14px; color: var(--ink); }
+    .ov-item__m { grid-column: 1; font-size: 12.5px; color: var(--muted); }
+    .ov-item__tags { grid-column: 2; grid-row: 1 / span 2; display: flex; align-items: center; gap: 10px; }
+    .ov-item__tags .prio { font-size: 13px; }
+    .ov-item__late { color: #b7692a; }
+    .ov-donut { display: flex; align-items: center; gap: 20px; margin: 18px 0 16px; padding-top: 14px; border-top: 1px solid #edf0f4; }
+    .ov-donut svg { flex: none; width: 96px; height: 96px; }
+    .ov-donut circle { stroke: var(--c); }
+    .ov-key { display: grid; gap: 4px; flex: 1; }
+    .ov-key li { display: flex; align-items: center; gap: 8px; font-size: 13px; line-height: 16px; color: var(--text); }
+    .ov-key i { flex: none; width: 8px; height: 8px; border-radius: 50%; background: var(--c); }
+    .ov-key b { margin-left: auto; font-weight: 600; font-variant-numeric: tabular-nums; color: var(--ink); }
+    .ov-bars { display: grid; gap: 14px; margin: 14px 0 16px; padding-top: 16px; border-top: 1px solid #edf0f4; }
+    .ov-bar__top { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 6px; font-size: 13.5px; color: var(--ink); }
+    .ov-bar__top b { font-weight: 600; font-variant-numeric: tabular-nums; }
+    .ov-bar__track { height: 8px; border-radius: 999px; background: #edf0f4; overflow: hidden; }
+    .ov-bar__fill { height: 100%; border-radius: 999px; background: var(--c, var(--accent-btn)); }
+    .dn--critical { --c: #e0384a; }
+    .dn--high { --c: #f2b61e; }
+    .dn--medium { --c: #3b6df0; }
+    .dn--low { --c: #b3b9c4; }
+    .dn--overdue { --c: #ea8a3a; }
+    @media (max-width: 1100px) { .ov-kpis { grid-template-columns: repeat(2, minmax(0, 1fr)); } .ov-grid, .ov-grid--even { grid-template-columns: minmax(0, 1fr); } }
+    #ov-view { display: none; }
+    .main.is-ov > #ov-view { display: block; }
+    .main.is-ov > .hero, .main.is-ov > .findings { display: none; }
+    .ov-dial { margin-top: 32px; max-width: 340px; }
+    .ov-dcard { overflow: hidden; border: 1px solid var(--line); border-radius: 12px; background: #fff; box-shadow: 0 1px 2px rgba(60, 66, 87, .05); }
+    .ov-dcard__head { display: flex; align-items: center; gap: 8px; padding: 14px 20px; border-bottom: 1px solid var(--line); }
+    .ov-dcard__head h2 { font-size: 16px; font-weight: 600; color: var(--ink); }
+    .ov-dial__i { display: grid; place-items: center; color: #98a1b2; cursor: help; }
+    .ov-dial__i .ico { width: 15px; height: 15px; }
+    .ov-dcard__body { padding: 16px 20px 20px; }
+    .ov-dial__wrap { position: relative; width: 100%; max-width: 280px; margin: 0 auto; }
+    .ov-dial__svg { display: block; width: 100%; height: auto; }
+    .ov-dial__c { position: absolute; left: 0; right: 0; top: 46%; display: grid; justify-items: center; }
+    .ov-dial__n { display: flex; align-items: baseline; gap: 4px; }
+    .ov-dial__n b { font-size: 24px; font-weight: 700; line-height: 1; color: #2a9d5c; }
+    .ov-dial__n span { font-size: 14px; color: var(--muted); }
+    .ov-dial__l { margin-top: 2px; font-size: 28px; font-weight: 700; letter-spacing: -.01em; line-height: 1.15; color: var(--ink); }
+    .ov-dial__note { position: relative; margin: -22px 8px 0; padding: 9px 14px; border-radius: 8px; background: #dff4e7; font-size: 13px; line-height: 1.4; text-align: center; color: #1f5f3a; }
+    .t-head { display: flex; align-items: center; gap: 12px; }
+    .rowchk { appearance: none; -webkit-appearance: none; flex: none; width: 16px; height: 16px; margin: 0; border: 1.5px solid #cfd4dc; border-radius: 4px; background: #fff; cursor: pointer; transition: background-color .12s ease, border-color .12s ease; }
+    .rowchk:hover { border-color: #aab1bf; }
+    .rowchk:checked { border-color: #262626; background: #262626 url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='none' stroke='white' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m4.5 10.5 3.5 3.5 7.5-8'/%3E%3C/svg%3E") center / 11px no-repeat; }
+    .rowchk:indeterminate { border-color: #262626; background: #262626 url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='none' stroke='white' stroke-width='2.6' stroke-linecap='round'%3E%3Cpath d='M5 10h10'/%3E%3C/svg%3E") center / 11px no-repeat; }
+    .rowchk:focus-visible { outline: 2px solid #262626; outline-offset: 2px; }
+    .ftable tbody tr.is-checked { background: #f6f6f6; }
+    .ftable tbody tr.is-pg { display: none; }
+    .tablewrap[hidden] + .pager { display: none; }
+    .pager { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; padding: 12px 4px 0; font-size: 13px; color: var(--muted); }
+    .pager__l, .pager__r { display: flex; align-items: center; gap: 10px; }
+    .pager .fd-dd { position: relative; }
+    .pager .fd-rng { height: 28px; }
+    .pager .fd-rngmenu { top: auto; bottom: 34px; left: 0; right: auto; width: 128px; }
+    .pager__range { font-variant-numeric: tabular-nums; color: var(--text); }
+    .pg-btn { display: grid; place-items: center; width: 28px; height: 28px; border: 1px solid #d5dbe4; border-radius: 6px; background: #fff; color: var(--ink); box-shadow: 0 1px 1px rgba(60, 66, 87, .06); }
+    .pg-btn:hover:not(:disabled) { background: #f7f8fa; }
+    .pg-btn:disabled { opacity: .4; cursor: default; }
+    .pg-btn .ico { width: 15px; height: 15px; }
+    .bulk { position: fixed; z-index: 35; left: calc(50% + 136px); bottom: 24px; display: flex; align-items: center; gap: 8px; padding: 8px 10px 8px 14px; border: 1px solid var(--line); border-radius: 10px; background: #fff; box-shadow: 0 6px 20px rgba(26, 31, 54, .14); transform: translateX(-50%); }
+    .bulk[hidden] { display: none; }
+    .bulk__n { font-size: 13.5px; color: var(--text); white-space: nowrap; }
+    .bulk__n b { font-weight: 600; font-variant-numeric: tabular-nums; color: var(--ink); }
+    .bulk__clear { padding: 4px 6px; border-radius: 6px; font-size: 13px; color: var(--muted); }
+    .bulk__clear:hover { background: #f1f3f7; color: var(--ink); }
+    .bulk__sep { width: 1px; height: 22px; margin-inline: 4px; background: var(--line); }
+    .bulk__btn { display: inline-flex; align-items: center; height: 32px; padding-inline: 12px; border: 1px solid #d5dbe4; border-radius: 6px; background: #fff; font-size: 13.5px; font-weight: 500; white-space: nowrap; color: var(--ink); box-shadow: 0 1px 1px rgba(60, 66, 87, .06); transition: background-color .12s ease; }
+    .bulk__btn:hover { background: #f7f8fa; }
+    .bulk__btn--primary { border-color: #262626; background: #262626; color: #fff; box-shadow: none; }
+    .bulk__btn--primary:hover { border-color: #404040; background: #404040; }
+    @media (max-width: 760px) { .bulk { left: 50%; flex-wrap: wrap; justify-content: center; width: calc(100vw - 32px); } }
+    .fd-callout { margin-top: 20px; padding: 12px 16px; border-left: 3px solid #ea8a3a; border-radius: 0 8px 8px 0; background: #fff7ee; }
+    .fd-callout[hidden] { display: none; }
+    .fd-callout b { display: block; margin-bottom: 4px; font-size: 13px; font-weight: 600; color: #b7692a; }
+    .fd-callout p { font-size: 14px; line-height: 1.55; color: var(--ink); }
+    .fd-evi__note { margin-top: 8px; font-size: 13.5px; line-height: 1.5; color: var(--text); }
+    .fd-box__note { padding: 2px 4px 2px; font-size: 12.5px; line-height: 1.5; color: var(--muted); }
+    .fd-el__note { margin-top: 2px; font-size: 12.5px; line-height: 1.5; color: var(--muted); }
+    .pill-act { display: inline-block; padding: 2px 8px; border-radius: 4px; background: #fbdde1; font-size: 12px; font-weight: 500; color: #a8232f; }
+    .hero--findings { min-height: 120px; padding-right: 300px; }
+    .attn { position: absolute; top: 0; right: 0; width: 248px; padding: 14px 10px 10px; border: 1px solid var(--line); border-radius: 10px; background: #fff; box-shadow: 0 1px 2px rgba(60, 66, 87, .05); }
+    .attn__head { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding-inline: 8px; }
+    .attn__head h2 { font-size: 14.5px; font-weight: 600; color: var(--ink); }
+    .attn__total { padding: 3px 9px; border-radius: 6px; background: var(--panel); font-size: 13px; font-weight: 500; font-variant-numeric: tabular-nums; color: var(--ink); }
+    .attn__list { display: grid; gap: 2px; margin-top: 10px; }
+    .attn__row { display: flex; align-items: center; gap: 10px; width: 100%; height: 34px; padding-inline: 8px; border-radius: 6px; font-size: 13.5px; color: var(--text); transition: background-color .12s ease; }
+    .attn__row:hover { background: #f7f8fa; }
+    .attn__row[aria-pressed="true"] { background: #f1f1f1; color: var(--ink); font-weight: 500; }
+    .attn__row b { margin-left: auto; font-weight: 600; font-variant-numeric: tabular-nums; color: var(--ink); }
+    .attn__ico { flex: none; width: 16px; height: 16px; }
+    .attn__ico--overdue { color: #b7692a; }
+    .attn__ico--critical { color: #e0384a; }    @media (max-width: 1100px) { .hero--findings { min-height: 0; padding-right: 0; } .attn { position: static; width: auto; margin-top: 16px; } }
+    .act-tag { display: inline-block; margin-right: 8px; padding: 2px 8px; border-radius: 4px; font-size: 12px; font-weight: 500; line-height: 1.4; vertical-align: 1px; white-space: nowrap; }
+    .act-tag--do { background: #e6e8ec; color: #4d5362; }
+    .act-tag--eval { background: #e6e8ec; color: #4d5362; }
+    .act-tag--inv { background: #e6e8ec; color: #4d5362; }
+    .fd-el__tags .act-tag { margin-right: 0; vertical-align: baseline; }  </style>
+</head>
+
+<body>
+  <div class="shell">
+    <aside class="side">
+      <div class="side__org">
+        <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="2.5"/><path d="M4 10h16M9 10v10"/></svg>
+        Cygnos
+      </div>
+
+      <nav class="nav" aria-label="Primary">
+        <a class="nav__item" href="overview.html">
+          <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="3.5" width="7" height="7" rx="1.5"/><rect x="13.5" y="3.5" width="7" height="7" rx="1.5"/><rect x="13.5" y="13.5" width="7" height="7" rx="1.5"/><rect x="3.5" y="13.5" width="7" height="7" rx="1.5"/></svg>Overview
+        </a>
+        <a class="nav__item is-active" href="#" aria-current="page">
+          <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><rect x="2.5" y="3.5" width="19" height="13" rx="2"/><path d="M8 21h8M12 16.5V21"/></svg>Findings
+        </a>
+        <a class="nav__item" href="#">
+          <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="8" width="16" height="12" rx="3"/><path d="M12 4v4M9 14h.01M15 14h.01M2 14h2M20 14h2"/></svg>Sources
+        </a>
+        <a class="nav__item" href="#">
+          <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9h16M4 15h16M10 3 8 21M16 3l-2 18"/></svg>Functions
+        </a>
+        <a class="nav__item" href="#">
+          <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>Settings
+        </a>
+      </nav>
+
+      <nav class="quick" aria-label="Quick access">
+        <p class="side__label">Quick access</p>
+        <a class="nav__item" href="#">
+          <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M14 3H7.5A2.5 2.5 0 0 0 5 5.5v13A2.5 2.5 0 0 0 7.5 21h9a2.5 2.5 0 0 0 2.5-2.5V8z"/><path d="M14 3v5h5M12 11.5v5M9.5 14h5"/></svg>Create brief
+        </a>
+        <a class="nav__item" href="#">
+          <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 15V4M8 8l4-4 4 4"/><path d="M4.5 15v3.5A1.5 1.5 0 0 0 6 20h12a1.5 1.5 0 0 0 1.5-1.5V15"/></svg>Upload AI budget
+        </a>
+        <a class="nav__item" href="#">
+          <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.5 5 6v5.5c0 4.2 2.8 7.4 7 9 4.2-1.6 7-4.8 7-9V6z"/><path d="m9 12 2.2 2.2L15.2 10"/></svg>Connect data loss prevention
+        </a>
+        <a class="nav__item" href="#">
+          <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 6.5C10.5 5 8.2 4.5 4.5 4.5v13c3.7 0 6 .5 7.5 2 1.5-1.5 3.8-2 7.5-2v-13c-3.7 0-6 .5-7.5 2zM12 6.5v13"/></svg>Resources
+        </a>
+        <a class="nav__item" href="#">
+          <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.5 2.5 0 1 1 3.5 2.3c-.7.4-1 .9-1 1.7M12 17h.01"/></svg>Help
+        </a>
+      </nav>
+    </aside>
+
+    <main class="main">
+      <div class="top">
+        <div class="top__right">
+          <span class="bell"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9a6 6 0 0 1 12 0c0 6 2.5 7.5 2.5 7.5h-17S6 15 6 9M10 20a2 2 0 0 0 4 0"/></svg></span>
+        </div>
+      </div>
+
+      <div id="ov-view">
+      <section class="hero">
+        <h1>Overview</h1>
+        <p>A summary of the findings across your company's AI use, and where to look first.</p>
+      </section>
+
+      <section class="ov-dial" aria-label="Cygnos IQ Score">
+        <article class="ov-dcard">
+          <div class="ov-dcard__head"><h2>Cygnos IQ Score</h2><span class="ov-dial__i" title="Score out of 100. The purple marker shows the safe score."><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/></svg></span></div>
+          <div class="ov-dcard__body">
+            <div class="ov-dial__wrap">
+              <svg class="ov-dial__svg" viewBox="0 0 240 166" aria-hidden="true">
+                <defs>
+                  <radialGradient id="dg-glow" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#7fdca3" stop-opacity=".45"/><stop offset=".6" stop-color="#7fdca3" stop-opacity=".18"/><stop offset="1" stop-color="#7fdca3" stop-opacity="0"/></radialGradient>
+                  <radialGradient id="dg-disc" cx="50%" cy="55%" r="62%"><stop offset="0" stop-color="#c3f3d8"/><stop offset=".7" stop-color="#e3f8ec"/><stop offset="1" stop-color="#f1fbf5"/></radialGradient>
+                </defs>
+                <circle cx="120" cy="130" r="118" fill="url(#dg-glow)"/>
+                <circle cx="120" cy="130" r="108" fill="none" stroke="#d3f0de" stroke-width="2"/>
+                <circle cx="120" cy="130" r="78" fill="url(#dg-disc)" stroke="#d3f0de" stroke-width="2"/>
+                <circle cx="120" cy="130" r="88" fill="none" stroke="#e1f5e9" stroke-width="18" stroke-linecap="round" pathLength="100" stroke-dasharray="61.1 100" transform="rotate(160 120 130)"/>
+                <circle cx="120" cy="130" r="88" fill="none" stroke="#8fd6ab" stroke-width="18" stroke-linecap="round" pathLength="100" stroke-dasharray="51.9 100" transform="rotate(160 120 130)"/>
+                <path d="M139.5 38.1 L149.35 25.9 L135.65 22.9 Z" fill="#d6c7f7" stroke="#d6c7f7" stroke-width="3" stroke-linejoin="round"/>
+              </svg>
+              <div class="ov-dial__c"><div class="ov-dial__n"><b>85</b><span>/100</span></div><div class="ov-dial__l">Good</div></div>
+            </div>
+            <p class="ov-dial__note">Out of 100. 75 or more is healthy.</p>
+          </div>
+        </article>
+      </section>
+      </div>
+
+      <section class="hero hero--findings">
+        <h1>Findings</h1>
+        <p>Review what Cygnos has found in your company's AI use, who owns each finding, and where it stands.</p>
+
+        <aside class="attn" aria-label="Needs attention">
+          <div class="attn__head"><h2>Needs attention</h2><span class="attn__total" id="attn-total">0</span></div>
+          <div class="attn__list" role="group" aria-label="Show in the table">
+            <button type="button" class="attn__row" data-quick="overdue" aria-pressed="false"><svg class="ico attn__ico attn__ico--overdue" viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="5.5" width="16" height="14.5" rx="2"/><path d="M4 10h16M8.5 3.5v4M15.5 3.5v4M12 13v3M12 18.2h.01"/></svg><span>Overdue</span><b id="attn-overdue">0</b></button>
+            <button type="button" class="attn__row" data-quick="critical" aria-pressed="false"><svg class="flag attn__ico attn__ico--critical" viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 14V2" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M3.5 2.5h9L10 6l2.5 3.5h-9z" fill="currentColor"/></svg><span>Critical</span><b id="attn-critical">0</b></button>
+          </div>
+        </aside>
+      </section>
+
+      <section class="findings" aria-labelledby="findings-title">
+        <div class="fbar">
+          <div class="seg" role="group" aria-label="Filter by status">
+            <button type="button" class="seg__btn is-on" data-status="all" aria-pressed="true">All</button>
+            <button type="button" class="seg__btn" data-status="open" aria-pressed="false">Open</button>
+            <button type="button" class="seg__btn" data-status="overdue" aria-pressed="false">Overdue</button>
+          </div>
+          <label class="fsearch"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><input type="search" placeholder="Search" aria-label="Search findings"></label>
+        </div>
+        <div class="ftools">
+          <div class="fpills">
+            <button type="button" class="pillbtn"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M12 8v8M8 12h8"/></svg> Priority</button>
+            <button type="button" class="pillbtn"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M12 8v8M8 12h8"/></svg> Property</button>
+            <button type="button" class="pillbtn"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M12 8v8M8 12h8"/></svg> Status</button>
+            <button type="button" class="pillbtn"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M12 8v8M8 12h8"/></svg> Due date</button>
+            <button type="button" class="pillbtn"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M12 8v8M8 12h8"/></svg> More filters</button>
+          </div>
+          <div class="facts">
+            <button type="button" class="tbtn"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 15V3.5M8 7l4-4 4 4M5 13v6.5h14V13"/></svg> Export</button>
+            <button type="button" class="tbtn"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M12 2.5v3M12 18.5v3M2.5 12h3M18.5 12h3M5.3 5.3l2.1 2.1M16.6 16.6l2.1 2.1M18.7 5.3l-2.1 2.1M7.4 16.6l-2.1 2.1"/></svg> Edit columns</button>
+          </div>
+        </div>
+        <h2 class="findings__head" id="findings-title"><span>Open</span><b>11</b></h2>
+        <div class="tablewrap">
+          <table class="ftable">
+            <thead><tr><th class="t-issue"><div class="t-head"><input type="checkbox" class="rowchk rowchk--all" aria-label="Select all findings"><span>Findings</span></div></th><th>Owner</th><th>Due date</th><th>Priority</th><th>Status</th></tr></thead>
+            <tbody>
+            <tr data-status="overdue"><td class="t-issue"><div class="t-cell"><input type="checkbox" class="rowchk" aria-label="Select finding"><span class="t-ico"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.5 20.5 12 12 20.5 3.5 12z"/></svg></span><span class="t-text" tabindex="0">The client-intake agent has had no named owner since 14 September.</span><span class="chip chip--safe">Safe use</span></div></td><td>AI owner</td><td class="due due--late">21/09/26</td><td><span class="prio prio--high"><svg class="flag" viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 14V2" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M3.5 2.5h9L10 6l2.5 3.5h-9z" fill="currentColor"/></svg>High</span></td><td><span class="stat stat--overdue">Overdue</span></td></tr>
+            <tr data-status="acknowledged"><td class="t-issue"><div class="t-cell"><input type="checkbox" class="rowchk" aria-label="Select finding"><span class="t-ico"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.5 20.5 12 12 20.5 3.5 12z"/></svg></span><span class="t-text" tabindex="0">14 AI seats are still active for people who have left; 3 were used in September.</span><span class="chip chip--safe">Safe use</span></div></td><td>IT admin team</td><td class="due">16/10/26</td><td><span class="prio prio--critical"><svg class="flag" viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 14V2" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M3.5 2.5h9L10 6l2.5 3.5h-9z" fill="currentColor"/></svg>Critical</span></td><td><span class="stat stat--ack">Acknowledged</span></td></tr>
+            <tr data-status="open"><td class="t-issue"><div class="t-cell"><input type="checkbox" class="rowchk" aria-label="Select finding"><span class="t-ico"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><rect x="5.5" y="4.5" width="13" height="16" rx="2"/><path d="M9 4.5h6v-1H9zM9 11h6M9 15h4"/></svg></span><span class="t-text" tabindex="0">The support agent retried failing calls 4,100 times between 2 and 8 October.</span><span class="chip chip--rel">Reliability</span></div></td><td>Engineering lead</td><td class="due">16/10/26</td><td><span class="prio prio--high"><svg class="flag" viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 14V2" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M3.5 2.5h9L10 6l2.5 3.5h-9z" fill="currentColor"/></svg>High</span></td><td><span class="stat stat--open">Open</span></td></tr>
+            <tr data-status="open"><td class="t-issue"><div class="t-cell"><input type="checkbox" class="rowchk" aria-label="Select finding"><span class="t-ico"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.5 20.5 12 12 20.5 3.5 12z"/></svg></span><span class="t-text" tabindex="0">An AI note-taking tool the company has not approved is in weekly use by one team.</span><span class="chip chip--safe">Safe use</span></div></td><td>IT admin team</td><td class="due">20/10/26</td><td><span class="prio prio--high"><svg class="flag" viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 14V2" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M3.5 2.5h9L10 6l2.5 3.5h-9z" fill="currentColor"/></svg>High</span></td><td><span class="stat stat--open">Open</span></td></tr>
+            <tr data-status="acknowledged"><td class="t-issue"><div class="t-cell"><input type="checkbox" class="rowchk" aria-label="Select finding"><span class="t-ico"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.5 20.5 12 12 20.5 3.5 12z"/></svg></span><span class="t-text" tabindex="0">2 seats show a pattern consistent with a shared login.</span><span class="chip chip--safe">Safe use</span></div></td><td>IT admin team</td><td class="due">30/10/26</td><td><span class="prio prio--medium"><svg class="flag" viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 14V2" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M3.5 2.5h9L10 6l2.5 3.5h-9z" fill="currentColor"/></svg>Medium</span></td><td><span class="stat stat--ack">Acknowledged</span></td></tr>
+            <tr data-status="open"><td class="t-issue"><div class="t-cell"><input type="checkbox" class="rowchk" aria-label="Select finding"><span class="t-ico"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><rect x="5.5" y="4.5" width="13" height="16" rx="2"/><path d="M9 4.5h6v-1H9zM9 11h6M9 15h4"/></svg></span><span class="t-text" tabindex="0">Two vendor outages in September stopped the support agent for 47 minutes in total.</span><span class="chip chip--rel">Reliability</span></div></td><td>Engineering lead</td><td class="due">30/10/26</td><td><span class="prio prio--medium"><svg class="flag" viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 14V2" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M3.5 2.5h9L10 6l2.5 3.5h-9z" fill="currentColor"/></svg>Medium</span></td><td><span class="stat stat--open">Open</span></td></tr>
+            <tr data-status="open"><td class="t-issue"><div class="t-cell"><input type="checkbox" class="rowchk" aria-label="Select finding"><span class="t-ico"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><rect x="5.5" y="4.5" width="13" height="16" rx="2"/><path d="M9 4.5h6v-1H9zM9 11h6M9 15h4"/></svg></span><span class="t-text" tabindex="0">The proposal-writing assistant has answered 44% more slowly since 2 October.</span><span class="chip chip--rel">Reliability</span></div></td><td>Advisory platform team</td><td class="due">30/10/26</td><td><span class="prio prio--medium"><svg class="flag" viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 14V2" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M3.5 2.5h9L10 6l2.5 3.5h-9z" fill="currentColor"/></svg>Medium</span></td><td><span class="stat stat--open">Open</span></td></tr>
+            <tr data-status="acknowledged"><td class="t-issue"><div class="t-cell"><input type="checkbox" class="rowchk" aria-label="Select finding"><span class="t-ico"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 18 9 12l4 3 7-8"/><path d="M15 7h5v5"/></svg></span><span class="t-text" tabindex="0">Managed Services’ cost per ticket has been above its normal range for four months, while AI use doubled.</span><span class="chip chip--value">Value delivered</span></div></td><td>Managed Services head</td><td class="due">30/10/26</td><td><span class="prio prio--medium"><svg class="flag" viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 14V2" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M3.5 2.5h9L10 6l2.5 3.5h-9z" fill="currentColor"/></svg>Medium</span></td><td><span class="stat stat--ack">Acknowledged</span></td></tr>
+            <tr data-status="open"><td class="t-issue"><div class="t-cell"><input type="checkbox" class="rowchk" aria-label="Select finding"><span class="t-ico"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="5.5" width="16" height="14.5" rx="2"/><path d="M4 10h16M8.5 3.5v4M15.5 3.5v4M9 15l2 2 4-4"/></svg></span><span class="t-text" tabindex="0">28 seats across ChatGPT and Claude have not been used for 60 days.</span><span class="chip chip--spend">Spend discipline</span></div></td><td>IT admin team</td><td class="due">06/11/26</td><td><span class="prio prio--medium"><svg class="flag" viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 14V2" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M3.5 2.5h9L10 6l2.5 3.5h-9z" fill="currentColor"/></svg>Medium</span></td><td><span class="stat stat--open">Open</span></td></tr>
+            <tr data-status="open"><td class="t-issue"><div class="t-cell"><input type="checkbox" class="rowchk" aria-label="Select finding"><span class="t-ico"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.5 20.5 12 12 20.5 3.5 12z"/></svg></span><span class="t-text" tabindex="0">2 internal tools run on a personal API key instead of the company key.</span><span class="chip chip--safe">Safe use</span></div></td><td>Engineering lead</td><td class="due due--none">no deadline</td><td><span class="prio prio--low"><svg class="flag" viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 14V2" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M3.5 2.5h9L10 6l2.5 3.5h-9z" fill="currentColor"/></svg>Low</span></td><td><span class="stat stat--open">Open</span></td></tr>
+            <tr data-status="open"><td class="t-issue"><div class="t-cell"><input type="checkbox" class="rowchk" aria-label="Select finding"><span class="t-ico"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="5.5" width="16" height="14.5" rx="2"/><path d="M4 10h16M8.5 3.5v4M15.5 3.5v4M9 15l2 2 4-4"/></svg></span><span class="t-text" tabindex="0">Short internal summaries run on a premium model.</span><span class="chip chip--spend">Spend discipline</span></div></td><td>Engineering lead</td><td class="due due--none">no deadline</td><td><span class="prio prio--low"><svg class="flag" viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 14V2" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M3.5 2.5h9L10 6l2.5 3.5h-9z" fill="currentColor"/></svg>Low</span></td><td><span class="stat stat--open">Open</span></td></tr>
+            <tr class="empty" hidden><td colspan="5">No findings match.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="findings findings--closed" aria-labelledby="closed-title">
+        <h2 class="findings__head" id="closed-title"><button type="button" class="fold" aria-expanded="true" aria-controls="closed-table" aria-label="Collapse closed findings"><svg class="ico chev" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button><span>Closed</span><b>3</b></h2>
+        <div class="tablewrap" id="closed-table">
+          <table class="ftable">
+            <thead><tr><th class="t-issue"><div class="t-head"><input type="checkbox" class="rowchk rowchk--all" aria-label="Select all findings"><span>Findings</span></div></th><th>Owner</th><th>Due date</th><th>Priority</th><th>Status</th></tr></thead>
+            <tbody>
+            <tr><td class="t-issue"><div class="t-cell"><input type="checkbox" class="rowchk" aria-label="Select finding"><span class="t-ico"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="5.5" width="16" height="14.5" rx="2"/><path d="M4 10h16M8.5 3.5v4M15.5 3.5v4M9 15l2 2 4-4"/></svg></span><span class="t-text" tabindex="0">140 people in Advisory hold both chat assistants.</span><span class="chip chip--spend">Spend discipline</span></div></td><td>Advisory head</td><td class="due due--none">no deadline</td><td><span class="prio prio--medium"><svg class="flag" viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 14V2" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M3.5 2.5h9L10 6l2.5 3.5h-9z" fill="currentColor"/></svg>Medium</span></td><td><span class="stat stat--ack" data-tip="Accepted with a reason">Accepted</span></td></tr>
+            <tr><td class="t-issue"><div class="t-cell"><input type="checkbox" class="rowchk" aria-label="Select finding"><span class="t-ico"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="5.5" width="16" height="14.5" rx="2"/><path d="M4 10h16M8.5 3.5v4M15.5 3.5v4M9 15l2 2 4-4"/></svg></span><span class="t-text" tabindex="0">Repeated identical requests in proposal drafting were creating avoidable AI usage.</span><span class="chip chip--spend">Spend discipline</span></div></td><td>Engineering lead</td><td class="due due--none">no deadline</td><td><span class="prio prio--low"><svg class="flag" viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 14V2" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M3.5 2.5h9L10 6l2.5 3.5h-9z" fill="currentColor"/></svg>Low</span></td><td><span class="stat stat--fixed">Fixed</span></td></tr>
+            <tr><td class="t-issue"><div class="t-cell"><input type="checkbox" class="rowchk" aria-label="Select finding"><span class="t-ico"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="5.5" width="16" height="14.5" rx="2"/><path d="M4 10h16M8.5 3.5v4M15.5 3.5v4M9 15l2 2 4-4"/></svg></span><span class="t-text" tabindex="0">212 Microsoft Copilot seats had not been used for 60 days.</span><span class="chip chip--spend">Spend discipline</span></div></td><td>IT admin team</td><td class="due">01/11/26</td><td><span class="prio prio--medium"><svg class="flag" viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 14V2" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M3.5 2.5h9L10 6l2.5 3.5h-9z" fill="currentColor"/></svg>Medium</span></td><td><span class="stat stat--fixed">Fixed</span></td></tr>
+            <tr class="empty" hidden><td colspan="5">No findings match.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+  </div>
+
+
+  <script>
+    /* Long issue text is cut to one line; hovering (or focusing) it shows the full text in a tooltip */
+    (function () {
+      var tip = document.createElement('div');
+      tip.className = 'tip'; tip.setAttribute('role', 'tooltip');
+      document.body.appendChild(tip);
+
+      function show(el) {
+        var custom = el.getAttribute('data-tip');
+        if (!custom && el.scrollWidth <= el.clientWidth) return;
+        tip.textContent = custom || el.textContent;
+        var r = el.getBoundingClientRect();
+        tip.classList.add('is-on');
+        var h = tip.offsetHeight, w = tip.offsetWidth;
+        var top = r.top - h - 8; if (top < 8) top = r.bottom + 8;
+        var left = Math.min(Math.max(8, r.left), window.innerWidth - w - 8);
+        tip.style.top = top + 'px'; tip.style.left = left + 'px';
+      }
+      function hide() { tip.classList.remove('is-on'); }
+
+      document.querySelectorAll('.t-text').forEach(function (el) {
+        el.addEventListener('mouseenter', function () { show(el); });
+        el.addEventListener('mouseleave', hide);
+        el.addEventListener('focus', function () { show(el); });
+        el.addEventListener('blur', hide);
+      });
+      /* Status tags can carry a fuller label in data-tip, e.g. Accepted with a reason. */
+      document.addEventListener('mouseover', function (e) { var s = e.target.closest && e.target.closest('.stat[data-tip]'); if (s) show(s); });
+      document.addEventListener('mouseout', function (e) { var s = e.target.closest && e.target.closest('.stat[data-tip]'); if (s) hide(); });
+      window.addEventListener('scroll', hide, true);
+    })();
+  </script>
+
+  <script>
+    /* Filtering: the tabs, the search box and the filter pills all narrow both tables. Each pill opens a checklist; Apply commits it. */
+    (function () {
+      var AS_OF = new Date(2026, 9, 15);
+      var OPTIONS = {
+        'Priority': ['Critical', 'High', 'Medium', 'Low'],
+        'Property': ['Value delivered', 'Reliability', 'Safe use', 'Spend discipline'],
+        'Status': ['Open', 'Acknowledged', 'Overdue', 'Reopened', 'Fixed', 'Accept with a reason'],
+        'Due date': ['Within 7 days', '8 to 30 days', 'No deadline'],
+        'More filters': ['AI owner', 'IT admin team', 'Engineering lead', 'Advisory platform team', 'Managed Services head', 'Advisory head']
+      };
+      var FIELD = { 'Priority': 'priority', 'Property': 'factor', 'Status': 'status', 'Due date': 'due', 'More filters': 'owner' };
+      var TITLE = { 'More filters': 'Filter by Owner' };
+
+      function txt(el) { return el ? el.textContent.trim().toLowerCase() : ''; }
+      function bucket(s) {
+        var m = /^(\d\d)\/(\d\d)\/(\d\d)$/.exec(s);
+        if (!m) return 'no deadline';
+        var days = Math.round((new Date(2000 + +m[3], +m[2] - 1, +m[1]) - AS_OF) / 864e5);
+        return days <= 7 ? 'within 7 days' : '8 to 30 days';
+      }
+
+      var sections = Array.prototype.map.call(document.querySelectorAll('.findings'), function (sec) {
+        var rows = Array.prototype.slice.call(sec.querySelectorAll('tbody tr:not(.empty)'));
+        rows.forEach(function (r) {
+          r._f = { priority: txt(r.querySelector('.prio')), factor: txt(r.querySelector('.chip')), status: txt(r.querySelector('.stat')),
+                   due: bucket(r.cells[2].textContent.trim()), owner: txt(r.cells[1]), text: r.textContent.toLowerCase() };
+        });
+        return { get rows() { return Array.prototype.slice.call(sec.querySelectorAll('tbody tr:not(.empty)')); }, closed: sec.classList.contains('findings--closed'), empty: sec.querySelector('.empty'), count: sec.querySelector('.findings__head b') };
+      });
+
+      var tabs = document.querySelectorAll('.seg__btn'), box = document.querySelector('.fsearch input'), tab = 'all';
+      var applied = {};
+      Object.keys(OPTIONS).forEach(function (k) { applied[k] = []; });
+
+      var attnOn = null, quick = false;
+      function apply() {
+        if (!quick && attnOn) { attnOn = null; document.dispatchEvent(new Event('cyg:quick')); }
+        var q = box.value.trim().toLowerCase();
+        sections.forEach(function (s) {
+          var shown = 0;
+          s.rows.forEach(function (r) {
+            var f = r._f, ok = true;
+            if (!s.closed && tab !== 'all' && (tab === 'open' ? ['open', 'acknowledged', 'reopened'].indexOf(f.status) < 0 : f.status !== tab)) ok = false;
+            if (q && f.text.indexOf(q) === -1) ok = false;
+            Object.keys(applied).forEach(function (k) {
+              if (applied[k].length && applied[k].indexOf(f[FIELD[k]]) === -1) ok = false;
+            });
+            r.hidden = !ok; if (ok) shown++;
+          });
+          s.empty.hidden = shown !== 0; s.count.textContent = shown;
+        });
+      }
+
+      tabs.forEach(function (b) {
+        b.addEventListener('click', function () {
+          tab = b.getAttribute('data-status');
+          tabs.forEach(function (x) { var on = x === b; x.classList.toggle('is-on', on); x.setAttribute('aria-pressed', String(on)); });
+          apply();
+        });
+      });
+      box.addEventListener('input', apply);
+
+      /* Filter pills and their checklists */
+      var wrap = document.querySelector('.fpills'), pops = [];
+      function closeAll(except) {
+        pops.forEach(function (p) { if (p.el !== except) { p.el.hidden = true; p.pill.setAttribute('aria-expanded', 'false'); } });
+      }
+      Array.prototype.forEach.call(wrap.querySelectorAll('.pillbtn'), function (pill) {
+        var label = pill.textContent.trim(), title = TITLE[label] || 'Filter by ' + label;
+        pill.setAttribute('aria-haspopup', 'dialog'); pill.setAttribute('aria-expanded', 'false');
+        var el = document.createElement('div');
+        el.className = 'fpop'; el.hidden = true; el.setAttribute('role', 'dialog'); el.setAttribute('aria-label', title);
+        el.innerHTML = '<h3>' + title + '</h3><div class="fpop__list">' + OPTIONS[label].map(function (o) {
+          return '<label class="fchk"><input type="checkbox" value="' + o.toLowerCase() + '"><span>' + o + '</span></label>';
+        }).join('') + '</div><button type="button" class="fpop__apply">Apply</button>';
+        wrap.appendChild(el);
+        var entry = { el: el, pill: pill, label: label };
+        pops.push(entry);
+
+        pill.addEventListener('click', function () {
+          var open = el.hidden;
+          closeAll(el);
+          if (!open) { el.hidden = true; pill.setAttribute('aria-expanded', 'false'); return; }
+          Array.prototype.forEach.call(el.querySelectorAll('input'), function (i) { i.checked = applied[label].indexOf(i.value) !== -1; });
+          el.style.left = pill.offsetLeft + 'px'; el.style.top = (pill.offsetTop + pill.offsetHeight + 8) + 'px';
+          el.hidden = false; pill.setAttribute('aria-expanded', 'true');
+          el.querySelector('input').focus();
+        });
+        el.querySelector('.fpop__apply').addEventListener('click', function () {
+          applied[label] = Array.prototype.filter.call(el.querySelectorAll('input'), function (i) { return i.checked; }).map(function (i) { return i.value; });
+          var n = applied[label].length;
+          pill.lastChild.textContent = ' ' + label + (n ? ' \u00b7 ' + n : '');
+          pill.classList.toggle('is-active', n > 0);
+          el.hidden = true; pill.setAttribute('aria-expanded', 'false');
+          apply(); pill.focus();
+        });
+      });
+      document.addEventListener('click', function (e) { if (!wrap.contains(e.target)) closeAll(); });
+      document.addEventListener('keydown', function (e) {
+        if (e.key !== 'Escape') return;
+        var open = pops.filter(function (p) { return !p.el.hidden; })[0];
+        if (open) { closeAll(); open.pill.focus(); }
+      });
+
+      /* The Needs attention card: show only the overdue or the critical findings in the table (click again to clear). */
+      window.cygQuick = function (kind) {
+        var off = attnOn === kind; box.value = '';
+        pops.forEach(function (pp) { applied[pp.label] = []; pp.pill.lastChild.textContent = ' ' + pp.label; pp.pill.classList.remove('is-active'); pp.el.hidden = true; pp.pill.setAttribute('aria-expanded', 'false'); });
+        tab = !off && kind === 'overdue' ? 'overdue' : 'all';
+        tabs.forEach(function (x) { var is = x.getAttribute('data-status') === tab; x.classList.toggle('is-on', is); x.setAttribute('aria-pressed', String(is)); });
+        if (!off && kind === 'critical') {
+          applied['Priority'] = ['critical'];
+          var pr = pops.filter(function (pp) { return pp.label === 'Priority'; })[0];
+          pr.pill.lastChild.textContent = ' Priority \u00b7 1'; pr.pill.classList.add('is-active');
+        }
+        quick = true; attnOn = off ? null : kind; apply(); quick = false;
+        document.dispatchEvent(new Event('cyg:quick'));
+        return attnOn;
+      };
+      window.cygQuickState = function () { return attnOn; };
+
+      /* Edit columns: tick the columns to show; Apply hides or shows them in both tables (Findings always stays) */
+      var COLS = [['Owner', 2], ['Due date', 3], ['Priority', 4], ['Status', 5]];
+      var editBtn = Array.prototype.filter.call(document.querySelectorAll('.tbtn'), function (b) { return /Edit columns/.test(b.textContent); })[0];
+      var colWrap = editBtn.parentElement, tables = document.querySelectorAll('.ftable');
+      colWrap.style.position = 'relative';
+      var ce = document.createElement('div');
+      ce.className = 'fpop fpop--right'; ce.hidden = true; ce.setAttribute('role', 'dialog'); ce.setAttribute('aria-label', 'Edit columns');
+      ce.innerHTML = '<h3>Edit columns</h3><div class="fpop__list"><label class="fchk"><input type="checkbox" checked disabled><span>Findings</span></label>' +
+        COLS.map(function (c) { return '<label class="fchk"><input type="checkbox" value="' + c[1] + '" checked><span>' + c[0] + '</span></label>'; }).join('') +
+        '</div><button type="button" class="fpop__apply">Apply</button>';
+      colWrap.appendChild(ce);
+      editBtn.setAttribute('aria-haspopup', 'dialog'); editBtn.setAttribute('aria-expanded', 'false');
+      function hideCols() { ce.hidden = true; editBtn.setAttribute('aria-expanded', 'false'); }
+      var baseCloseAll = closeAll;
+      closeAll = function (except) { baseCloseAll(except); if (except && except !== ce) hideCols(); };
+      editBtn.addEventListener('click', function () {
+        var show = ce.hidden;
+        closeAll(ce);
+        if (!show) { hideCols(); return; }
+        ce.style.top = (editBtn.offsetTop + editBtn.offsetHeight + 8) + 'px';
+        ce.hidden = false; editBtn.setAttribute('aria-expanded', 'true');
+        ce.querySelector('input:not(:disabled)').focus();
+      });
+      ce.querySelector('.fpop__apply').addEventListener('click', function () {
+        Array.prototype.forEach.call(ce.querySelectorAll('input:not(:disabled)'), function (i) {
+          Array.prototype.forEach.call(tables, function (tb) { tb.classList.toggle('hide-' + i.value, !i.checked); });
+        });
+        hideCols(); editBtn.focus();
+      });
+      document.addEventListener('click', function (e) { if (!colWrap.contains(e.target)) hideCols(); });
+      document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && !ce.hidden) { hideCols(); editBtn.focus(); } });
+    })();
+  </script>
+
+  <script>
+    /* Closed findings: the chevron folds it by hand, and it follows the tabs: open on All, collapsed on Open or Overdue */
+    (function () {
+      var btn = document.querySelector('.fold'), box = document.getElementById('closed-table');
+      function set(open) {
+        btn.setAttribute('aria-expanded', String(open));
+        btn.setAttribute('aria-label', open ? 'Collapse closed findings' : 'Expand closed findings');
+        box.hidden = !open;
+      }
+      btn.addEventListener('click', function () { set(btn.getAttribute('aria-expanded') !== 'true'); });
+      document.querySelectorAll('.seg__btn').forEach(function (b) {
+        b.addEventListener('click', function () { set(b.getAttribute('data-status') === 'all'); });
+      });
+    })();
+  </script>
+  <div id="detail" role="dialog" aria-modal="true" aria-labelledby="fd-ttl" hidden>
+    <header class="fd-bar">
+      <button type="button" class="tbtn" id="fd-back"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="m15 6-6 6 6 6"/></svg>All findings</button>
+      <div class="fd-bar__title"><span class="fd-bar__name" id="fd-name"></span><span class="fd-bar__id" id="fd-id"></span></div>
+      <button type="button" class="fd-bar__link" id="fd-copy" aria-label="Copy link"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1"/></svg></button>
+    </header>
+    <div class="fd-page">
+      <main>
+        <h1 class="fd-ttl" id="fd-ttl"></h1>
+        <div class="fd-tags" id="fd-tags"></div>
+        <div class="fd-callout" id="fd-callout" hidden></div>
+        <p class="fd-desc" id="fd-desc"></p>
+        <h2 class="fd-sec">What we found and what to do</h2>
+        <div class="fd-cards" id="fd-cards"></div>
+        <article class="fd-card fd-evi" id="fd-evi"></article>
+      </main>
+      <aside class="fd-side">
+        <div class="fd-mini" id="fd-mini"></div>
+        <div class="fd-box">
+        <div class="fd-owner">
+          <button type="button" class="fd-more" id="fd-more" aria-haspopup="menu" aria-expanded="false" aria-label="More options" hidden><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="5" cy="12" r="1.5" fill="currentColor"/><circle cx="12" cy="12" r="1.5" fill="currentColor"/><circle cx="19" cy="12" r="1.5" fill="currentColor"/></svg></button>
+          <div class="fd-morem" id="fd-morem" role="menu" hidden><button type="button" role="menuitem" id="fd-edit">Edit details</button><button type="button" role="menuitem" id="fd-reopen">Reopen</button></div>
+          <div class="fd-owner__k">For the owner</div>
+          <p class="fd-owner__t" id="fd-owner"></p>
+        </div>
+        <div class="fd-acts">
+          <button type="button" class="fd-act-btn" data-act="ack">Acknowledge</button>
+          <button type="button" class="fd-act-btn" data-act="fix">Mark as fixed</button>
+          <button type="button" class="fd-act-btn" data-act="accept">Accept with a reason</button>
+        </div>
+        </div>
+        <section class="fd-act">
+          <h3>What happens next</h3>
+          <ol class="dp-tl" id="fd-tl"></ol>
+        </section>
+      </aside>
+    </div>
+    <section class="fd-else" aria-labelledby="fd-else-h"><div class="fd-else__in">
+      <div class="fd-else__head"><h2 class="fd-sec" id="fd-else-h">The same finding elsewhere</h2></div>
+      <div class="fd-else__grid" id="fd-else"></div>
+    </div></section>
+  </div>  <div class="rd-scrim" id="rd-scrim"></div>
+  <aside class="rd" id="rd" role="dialog" aria-modal="true" aria-labelledby="rd-h" aria-hidden="true">
+    <div class="rd__bar">
+      <h2 id="rd-h">Accept with a reason</h2>
+      <button type="button" class="dbtn" id="rd-close" aria-label="Close"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
+    </div>
+    <form class="rd__body" id="rd-form">
+      <p class="rd__lead" id="rd-lead"></p>
+      <label class="rd__lbl" for="rd-text">Reason</label>
+      <textarea id="rd-text" rows="7" maxlength="500" placeholder="Why is it fine to leave this as it is?"></textarea>
+      <div class="rd__count"><span id="rd-n">0</span>/500</div>
+      <div class="rd__foot">
+        <button type="button" class="tbtn" id="rd-cancel">Cancel</button>
+        <button type="submit" class="tbtn tbtn--primary" id="rd-submit" disabled>Submit</button>
+      </div>
+    </form>
+  </aside>
+  <div class="bulk" id="bulk" role="toolbar" aria-label="Actions for the selected findings" hidden>
+    <span class="bulk__n"><b data-n>0</b> selected</span>
+    <button type="button" class="bulk__clear" data-bulk="clear">Clear</button>
+    <span class="bulk__sep" aria-hidden="true"></span>
+    <button type="button" class="bulk__btn bulk__btn--primary" data-bulk="ack">Acknowledge</button>
+    <button type="button" class="bulk__btn" data-bulk="fix">Mark as fixed</button>
+    <button type="button" class="bulk__btn" data-bulk="accept">Accept with a reason</button>
+  </div>
+  <div class="toast" id="toast" role="status" aria-live="polite" data-tone="info">
+    <span class="toast__ic" id="toast-ic"></span>
+    <p class="toast__t"><b id="toast-b"></b> <span id="toast-t"></span></p>
+    <button type="button" class="toast__x" id="toast-x" aria-label="Dismiss"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
+  </div>
+  <div class="dp-scrim" id="dp-scrim" aria-hidden="true"></div>
+  <aside class="dp" id="dp" role="dialog" aria-modal="false" aria-labelledby="dp-title" aria-hidden="true">
+    <div class="dp__bar">
+      <button type="button" class="dbtn" id="dp-close" aria-label="Close panel"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
+    </div>
+    <div class="dp__scroll" id="dp-scroll">
+      <h2 class="dp__title" id="dp-title"></h2>
+      <dl class="dp-props" id="dp-props"></dl>
+      <div class="dp-tabs" role="tablist" aria-label="Finding sections">
+        <button type="button" class="dp-tab" role="tab" data-tab="summary" aria-selected="true">Summary</button>
+        <button type="button" class="dp-tab" role="tab" data-tab="timeline" aria-selected="false">Timeline</button>
+      </div>
+      <div class="dp-pn" id="dp-pn-summary" role="tabpanel"></div>
+      <div class="dp-pn" id="dp-pn-timeline" role="tabpanel" hidden></div>
+    </div>
+    <div class="dp__foot">
+      <button type="button" class="tbtn tbtn--primary" data-pact="fix">Mark as Fixed</button>
+      <button type="button" class="tbtn" data-pact="accept">Accept with a reason</button>
+      <button type="button" class="tbtn dp__state" id="dp-open">Open</button>
+    </div>
+  </aside>
+
+  <script>
+    /* Clicking an issue opens its detail panel on the right. The text comes from what each finding already says; nothing new is measured. */
+    (function () {
+      var DATA = {
+        "The client-intake agent has had no named owner since 14 September.": {
+          f: "The client-intake agent has had no named owner since 14 September.",
+          i: "Nobody is accountable for what this agent does with client requests.",
+          ev: ["No named owner in the agent registry since 14 September.", "The last change to the agent was on 2 September, by a service account.", "The team that runs it is Sales operations.", "It is still answering client requests."],
+          st: ["Decide who owns the client-intake agent.", "The AI owner records the owner in Cygnos."]
+        },
+        "14 AI seats are still active for people who have left; 3 were used in September.": {
+          f: "14 seats across 3 tools; people left between 4 Aug and 30 Sep; 3 seats used after leaving.",
+          i: "Former staff can still reach company data through AI. This is 3 of the 4 points Safe use lost in September, because 3 of the seats were used in September.",
+          ev: ["14 seats for people who have left, across 3 tools.", "People left between 4 Aug and 30 Sep.", "3 of the 14 seats were used after the person left."],
+          st: ["IT should remove these 14 seats by Fri 16 Oct.", "Add AI tools to the leaving checklist so this does not recur."]
+        },
+        "2 seats show a pattern consistent with a shared login.": {
+          f: "2 seats show a pattern consistent with a shared login.",
+          i: "If a login is shared between people, it is harder to say who used the seat and whether it is being used as licensed.",
+          ev: ["2 seats.", "Use pattern consistent with a shared login."],
+          st: ["Investigate whether each of the 2 seats is used by more than one person.", "If so, give each person their own seat."]
+        },
+        "Managed Services’ cost per ticket has been above its normal range for four months, while AI use doubled.": {
+          f: "Managed Services’ cost per ticket has been above its normal range for four months, while AI use doubled.",
+          i: "AI use doubled over the same four months, but there are no signs yet that AI is part of the rise.",
+          ev: ["Cost per ticket above its normal range for four months.", "AI use doubled in the same period.", "AI’s part in the rise: no signs yet."],
+          st: ["Cause is unknown. Investigate what is behind the rise in cost per ticket.", "Share what you find with the Managed Services head."]
+        },
+        "The support agent retried failing calls 4,100 times between 2 and 8 October.": {
+          f: "Between 2 and 8 October the support agent kept retrying calls that were failing, 4,100 times in total.",
+          i: "Each retry uses a call without giving anyone a usable answer, so people waiting on the support agent may have seen slow or missing replies.",
+          ev: ["4,100 retries of failing calls by the support agent.", "Seen between 2 and 8 October."],
+          st: ["Look at the errors behind the failing calls and set a limit on how many times the support agent retries.", "Agree the fix with the IT admin team and check the retry count again a week later."]
+        },
+        "An AI note-taking tool the company has not approved is in weekly use by one team.": {
+          f: "One team uses an AI note-taking tool every week that is not on the company\u2019s approved list.",
+          i: "Meeting notes and other work content may be going to a tool that has not been reviewed for security or data handling.",
+          ev: ["An AI note-taking tool the company has not approved.", "In weekly use by one team."],
+          st: ["Review the tool against the company\u2019s security terms.", "Approve it, or move the team to an approved alternative."]
+        },
+        "Two vendor outages in September stopped the support agent for 47 minutes in total.": {
+          f: "The vendor behind the support agent had two outages in September, and the agent was stopped for 47 minutes across both.",
+          i: "While the agent was down, anyone relying on it could not get answers from it.",
+          ev: ["Two vendor outages in September.", "The support agent was stopped for 47 minutes in total."],
+          st: ["Agree a fallback for the support agent for when the vendor is down.", "Ask the vendor what happened in each outage and how it will prevent a repeat."]
+        },
+        "The proposal-writing assistant has answered 44% more slowly since 2 October.": {
+          f: "Since 2 October the proposal-writing assistant has taken 44% longer to answer.",
+          i: "People drafting proposals wait longer for each answer, which slows their work.",
+          ev: ["The proposal-writing assistant answers 44% more slowly.", "The slowdown starts on 2 October."],
+          st: ["Cause is unknown. Investigate what changed around 2 October, such as the model, the vendor or how the assistant is used.", "Share what you find with the Advisor team."]
+        },
+        "28 seats across ChatGPT and Claude have not been used for 60 days.": {
+          f: "28 paid seats across ChatGPT and Claude have had no use for 60 days.",
+          i: "The company is paying for access that nobody is using.",
+          ev: ["28 seats across ChatGPT and Claude.", "No use for 60 days."],
+          st: ["Review the 28 seats with the people they were assigned to.", "Reclaim or reassign any seat that is no longer needed."]
+        },
+        "2 internal tools run on a personal API key instead of the company key.": {
+          f: "Two internal tools use a personal API key, not the company\u2019s key.",
+          i: "Usage on a personal key sits outside company billing and access controls, and may stop working if that person leaves.",
+          ev: ["2 internal tools run on a personal API key.", "They are not using the company key."],
+          st: ["Move both tools to the company key.", "Remove the personal key once both tools have switched."]
+        },
+        "Short internal summaries run on a premium model.": {
+          f: "Short internal summaries are being run on a premium model.",
+          i: "Simple summaries may cost more than they need to if a lower-cost model could do the same job.",
+          ev: ["Short internal summaries run on a premium model."],
+          st: ["Evaluate whether a lower-cost model gives the same quality for short summaries.", "If it does, route short summaries to that model."]
+        },
+        "140 people in Advisory hold both chat assistants.": {
+          f: "140 people in Advisory have licences for both chat assistants.",
+          i: "Each of these people holds two paid licences for the same kind of tool.",
+          ev: ["140 people in Advisory.", "Each holds both chat assistants."],
+          st: ["Confirm with the Advisor team whether each person needs both assistants.", "Remove the second licence where it is not needed."]
+        },
+        "Repeated identical requests in proposal drafting were creating avoidable AI usage.": {
+          f: "In proposal drafting, the same requests were being sent again and again, which used AI more than needed.",
+          i: "The repeated requests created usage that could have been avoided.",
+          ev: ["Repeated identical requests in proposal drafting.", "The repeats created avoidable AI usage."],
+          st: ["Fixed. No further action is needed.", "Keep an eye on repeated requests in proposal drafting."]
+        },
+        "212 Microsoft Copilot seats had not been used for 60 days.": {
+          f: "212 Microsoft Copilot seats had no use for 60 days.",
+          i: "The seats were paid for but not used.",
+          ev: ["212 Microsoft Copilot seats.", "Not used for 60 days."],
+          st: ["Fixed. The IT Admin team has dealt with the unused seats.", "Check seat use again in 60 days to catch any new unused seats."]
+        }
+      };
+      var QUESTION = { f: "What are our findings?", i: "Why this matters, and how much is the impact?", st: "What can be the next steps?", ev: "What have we identified or observed?" };
+      function svg(inner) { return '<svg class="ico" viewBox="0 0 24 24" aria-hidden="true">' + inner + '</svg>'; }
+      var ICON = {
+        tag: svg('<path d="M3.5 3.5h8l9 9-8 8-9-9z"/><circle cx="8" cy="8" r="1.3"/>'),
+        person: svg('<circle cx="12" cy="8" r="4"/><path d="M4.5 21a7.5 7.5 0 0 1 15 0"/>'),
+        status: svg('<circle cx="12" cy="12" r="9"/><path d="m8.5 12.5 2.5 2.5 4.5-5"/>'),
+        flag: svg('<path d="M5 21V4M5 4.5h12l-2.5 4 2.5 4H5"/>'),
+        cal: svg('<rect x="4" y="5.5" width="16" height="14.5" rx="2"/><path d="M4 10h16M8.5 3.5v4M15.5 3.5v4"/>')
+      };
+      function esc(s) { return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
+      function prop(icon, label, value) { return '<div class="dp-prop"><dt>' + icon + label + '</dt><dd>' + value + '</dd></div>'; }
+
+      var rows = Array.prototype.slice.call(document.querySelectorAll('.ftable tbody tr:not(.empty)'));
+      var dp = document.getElementById('dp'), scrim = document.getElementById('dp-scrim'), title = document.getElementById('dp-title'), props = document.getElementById('dp-props');
+      var pn = { summary: document.getElementById('dp-pn-summary'), timeline: document.getElementById('dp-pn-timeline') };
+      var tabs = Array.prototype.slice.call(dp.querySelectorAll('.dp-tab'));
+      var current = -1, trigger = null;
+
+      function setTab(name) {
+        tabs.forEach(function (b) { var on = b.getAttribute('data-tab') === name; b.setAttribute('aria-selected', String(on)); });
+        Object.keys(pn).forEach(function (k) { pn[k].hidden = k !== name; });
+      }
+
+      var DAYS = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'], MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+      function dueLabel(s) {
+        var m = /^(\d\d)\/(\d\d)\/(\d\d)$/.exec(s), d = new Date(2000 + +m[3], +m[2] - 1, +m[1]);
+        return 'Due ' + DAYS[d.getDay()] + ' ' + (+m[1]) + ' ' + MONTHS[+m[2] - 1];
+      }
+      /* **text** in a sentence is shown in bold */
+      function rich(s) { return esc(s).replace(/\*\*(.+?)\*\*/g, '<b>$1</b>'); }
+      function ev(cls, when, text) {
+        return '<li class="' + cls + '"><span class="dp-tl__dot"></span><p>' + rich(text) + '</p><div class="dp-tl__when">' + esc(when) + '</div></li>';
+      }
+      /* Sample dates. The data has no event dates, so they are worked out from the due date:
+         found and assigned a week before it (7:15PM) but never later than 3 days before 15 Oct 2026, acknowledged a day later, fixed three days later, deadline passed on the due date (3:15PM).
+         Findings with no deadline are placed a week before 15 Oct 2026, so nothing is dated after it. Replace these with real dates when there are some. */
+      var SAMPLE_TODAY = new Date(2026, 9, 15);
+      function addDays(d, n) { var x = new Date(d.getTime()); x.setDate(x.getDate() + n); return x; }
+      function foundOf(dueD) {
+        var f = addDays(SAMPLE_TODAY, -7);
+        if (dueD) { var wk = addDays(dueD, -7), cap = addDays(SAMPLE_TODAY, -3); f = wk < cap ? wk : cap; }
+        return f;
+      }
+      function pad(n) { return (n < 10 ? '0' : '') + n; }
+      function stamp(d, h, m) { return pad(d.getDate()) + ' ' + MONTHS[d.getMonth()] + ' ' + d.getFullYear() + ', ' + (h % 12 || 12) + ':' + pad(m) + (h >= 12 ? 'PM' : 'AM'); }
+      function parseDue(s) { var m = /^(\d\d)\/(\d\d)\/(\d\d)$/.exec(s); return m ? new Date(2000 + +m[3], +m[2] - 1, +m[1]) : null; }
+
+      /* "What happens next", written as an activity list: finished steps carry their date, the rest carry a short label.
+         The steps follow the finding's status. */
+      function timeline(status, owner, dueTxt, factor, ov) {
+        ov = ov || {};
+        var O = owner === 'AI owner' ? 'the **AI owner**' : '**' + owner + '**';
+        var dueD = parseDue(dueTxt), due = dueD ? dueLabel(dueTxt) : 'No deadline', late = status === 'overdue', passed = late || ov.late;
+        var found = ov.foundD || foundOf(dueD);
+        var foundAt = ov.foundWhen || stamp(found, 19, 15), ackAt = ov.ack || stamp(addDays(found, 1), 15, 15), fixedAt = ov.fixed || stamp(addDays(found, 3), 15, 15);
+        var dueNote = dueD ? (ov.dueNote || 'The date this should be **fixed** by.') : '**No deadline** is set for this finding.';
+        var s = (ov.pre ? ev('is-past', ov.pre.when, ov.pre.text) : '') + ev('is-past', foundAt, 'Found by Cygnos, under **' + (ov.area || factor) + '**' + (ov.area ? '.' : ' with a named owner.')) +
+                (ov.alert ? ev('is-past', ov.alert.when, ov.alert.text) : ev('is-past', foundAt, 'Alert sent to ' + O + ' the same day, then in the **weekly digest**.'));
+        if (passed) s += ev('is-past', stamp(dueD, 15, 15), 'The deadline passed while it was still **open**.') +
+                       ev('is-past', stamp(addDays(dueD, 1), 15, 15), 'Moved up to the **executive team**. It is in their **monthly Brief** until it is closed.');
+        if (status === 'open' || late) {
+          s += ev('is-now', 'Waiting', 'Waiting for ' + O + ' to acknowledge it.');
+          if (!late) s += ev('is-next', due, dueNote);
+        } else if (status === 'acknowledged') {
+          s += ev('is-past', ackAt, '**' + owner + '** has acknowledged it.') + ev('is-now', 'Waiting', 'Waiting for ' + O + ' to mark it **fixed**.');
+          if (!passed) s += ev('is-next', due, dueNote);
+        } else if (status === 'fixed') {
+          s += (ov.fixed && !ov.ack ? '' : ev('is-past', ackAt, '**' + owner + '** acknowledged it.')) + ev('is-past', fixedAt, 'Marked as **fixed** by **' + owner + '**.') +
+               ev('is-now', 'Checking', (ov.check || 'Cygnos checks **every day** that the fix holds.'));
+        } else if (status === 'reopened') {
+          var before = ov.accept
+            ? (ov.ack ? ev('is-past', ov.ack, '**' + owner + '** acknowledged it.') : '') + ev('is-past', ov.accept, 'Accepted with a reason by **' + owner + '**.' + (ov.reason ? ' \u201C' + ov.reason.split('**').join('') + '\u201D' : ''))
+            : (ov.fixed && !ov.ack ? '' : ev('is-past', ackAt, '**' + owner + '** acknowledged it.')) + ev('is-past', fixedAt, 'Marked as **fixed** earlier.');
+          s += before + (ov.reopened
+            ? ev('is-past', ov.reopened, 'Reopened by ' + O + '.') + ev('is-now', 'Waiting', 'Waiting for ' + O + ' to acknowledge it.')
+            : ev('is-now', 'Reopened', 'The fix did not hold, so the finding **reopened**. Waiting for ' + O + ' to look at it again.'));
+        } else if (status === 'accepted') {
+          if (ov.ack) s += ev('is-past', ov.ack, '**' + owner + '** acknowledged it.');
+          return s + ev('is-past', ov.accept, 'Accepted with a reason by **' + owner + '**.' + (ov.reason ? ' “' + ov.reason.split('**').join('') + '”' : '')) + ev('is-now', 'Closed', 'Closed with a reason. The result shows here and in the next **Brief**.');
+        }
+        if (status !== 'fixed') s += ev('is-next', 'Once marked fixed', ov.check || 'Cygnos checks **every day** that the fix holds and the finding stays closed.');
+        return s + ev('is-next', 'Then', 'The result shows here and in the next **Brief**. If the fix does not hold, the finding **reopens**.');
+      }
+      /* Extra wording for findings that have a full reference page. */
+      var META = {
+        '14 AI seats': {
+          area: 'Access after people leave', foundWhen: '09 Oct 2026, 6:12AM',
+          pre: { when: '08 Oct 2026', text: 'Leaving dates for these 14 people reached the staff directory late, on 8 Oct. Cygnos found the gap at the next morning\u2019s read.' },
+          alert: { when: '09 Oct 2026, 6:12AM', text: 'Alert sent at once to the **IT admin team** and the **AI owner**.' },
+          ack: '09 Oct 2026, 3:15PM',
+          dueNote: 'In 2 days. If it is still open then, it becomes overdue: the AI owner hears at once, and it goes to the executive team\u2019s next **Brief**.',
+          check: 'Cygnos checks seat activity for 14 days and reports whether any of the 14 seats is used again.',
+          evNote: 'Leaving dates from the staff directory set against seat activity, per seat.',
+          evSrc: 'Staff directory, synced 14 Oct 06:00 \u00B7 ChatGPT and Claude, synced 13 Oct \u00B7 Microsoft, as of 7 Oct (stale)',
+          briefSub: true, briefNote: 'Under \u201CWhat moved the score\u201D, with its own \u22123 points.', actNow: true
+        },
+        'The client-intake agent': {
+          area: 'Agents with a named owner',
+          check: 'Cygnos checks the agent registry every day and confirms that a named owner stays in place.',
+          evNote: 'Agent registry and code host: no owner set; last change on 2 Sep by a service account.',
+          evSrc: 'Real time \u00B7 Agent registry'
+        }
+      };
+      function metaFor(text) { var k = Object.keys(META).filter(function (p) { return text.indexOf(p) === 0; })[0]; return k ? META[k] : null; }
+      function tlOv(i, text) { var o = {}, s = SIM[i] || {}, m = metaFor(text), k; if (m) for (k in m) o[k] = m[k]; for (k in s) o[k] = s[k]; return o; }
+      function items(list) { return list.map(function (x) { return '<li><span>' + esc(x) + '</span></li>'; }).join(''); }
+
+      function openRow(i, byKeyboard) {        var tr = rows[i]; if (!tr) return;
+        var text = tr.querySelector('.t-text').textContent.trim();
+        var d = DATA[text] || { f: text, i: "Impact has not been written for this finding yet.", ev: [text], st: ["Review this finding with the owner."] };
+        var owner = tr.cells[1].textContent.trim(), due = tr.cells[2], dueTxt = due.textContent.trim();
+        var status = tr.querySelector('.stat').textContent.trim().toLowerCase();
+        current = i; trigger = byKeyboard ? tr.querySelector('.t-text') : null;
+        rows.forEach(function (r) { r.classList.toggle('is-selected', r === tr); });
+
+        title.textContent = text;
+        props.innerHTML =
+          prop(ICON.tag, 'Property', tr.querySelector('.chip').outerHTML) +
+          prop(ICON.person, 'Owner', esc(owner)) +
+          prop(ICON.status, 'Status', tr.querySelector('.stat').outerHTML) +
+          prop(ICON.flag, 'Priority', tr.querySelector('.prio').outerHTML) +
+          prop(ICON.cal, 'Due date', '<span class="' + (due.classList.contains('due--late') ? 'due--late' : '') + '">' + esc(dueTxt) + '</span>');
+
+        pn.summary.innerHTML =
+          '<div class="dp-sec">' +
+          '<p class="dp-q">' + QUESTION.f + '</p><p class="dp-p">' + esc(d.f) + '</p>' +
+          '<p class="dp-q">' + QUESTION.i + '</p><p class="dp-p">' + esc(d.i) + '</p>' +
+          '<p class="dp-q">' + QUESTION.st + '</p><ul class="dp-list">' + items(d.st) + '</ul>' +
+          '<p class="dp-q">' + QUESTION.ev + '</p><ul class="dp-list">' + items(d.ev) + '</ul><p class="dp-note">Source: Cygnos usage records</p></div>';
+        pn.timeline.innerHTML =
+          '<div class=\"dp-sec\"><h3>What happens next</h3><ol class=\"dp-tl\">' + timeline(status, owner, dueTxt, tr.querySelector('.chip').textContent.trim(), tlOv(i, text)) + '</ol></div>';
+        Array.prototype.forEach.call(document.querySelectorAll('[data-pact]'), function (b) { b.disabled = (b.getAttribute('data-pact') === 'fix' ? ['fixed', 'accepted'] : ['fixed', 'accepted']).indexOf(status) > -1; });
+        setTab('summary');        document.getElementById('dp-scroll').scrollTop = 0;
+
+        dp.classList.add('is-open'); dp.setAttribute('aria-hidden', 'false'); scrim.classList.add('is-open');
+        try { history.replaceState(null, '', '#finding-' + (i + 1)); } catch (e) {}
+        document.getElementById('dp-close').focus({ preventScroll: true });
+      }
+      /* Full page for one finding (the panel's Open button). Same content as the panel, laid out as in finddetail.html. */
+      var fd = document.getElementById('detail');
+      var TAG_ICON = {
+        person: '<svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4.5 21a7.5 7.5 0 0 1 15 0"/></svg>',
+        cal: '<svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="5.5" width="16" height="14.5" rx="2"/><path d="M4 10h16M8.5 3.5v4M15.5 3.5v4"/></svg>'
+      };
+      /* Evidence as label and value, taken from the evidence lines above, nothing new measured. */
+      var EVROWS = {
+        'The client-intake agent': [['Named owner in the agent registry', 'None since 14 Sep'], ['Last change to the agent', '2 Sep, by a service account'], ['Team that runs it', 'Sales operations'], ['Still answering client requests', 'Yes']],
+        '14 AI seats': [['Seats for people who have left', '14'], ['Tools', '3'], ['People left between', '4 Aug and 30 Sep'], ['Used after the person left', '3: S-0451, S-0517, S-0546']],
+        '2 seats show': [['Seats', '2'], ['Use pattern', 'Consistent with a shared login']],
+        'Managed Services': [['Cost per ticket', 'Above normal range for four months'], ['AI use', 'Doubled'], ['AI’s part in the rise', 'No signs yet']],
+        'The support agent retried': [['Retries of failing calls', '4,100'], ['Seen between', '2 and 8 Oct']],
+        'An AI note-taking tool': [['Approved by the company', 'No'], ['Use', 'Weekly, one team']],
+        'Two vendor outages': [['Vendor outages in September', '2'], ['Support agent stopped', '47 min in total']],
+        'The proposal-writing assistant': [['Answers more slowly', '44%'], ['Slowdown starts', '2 Oct']],
+        '28 seats across': [['Seats across ChatGPT and Claude', '28'], ['No use for', '60 days']],
+        '2 internal tools': [['Internal tools on a personal API key', '2'], ['Using the company key', 'No']],
+        'Short internal summaries': [['Short internal summaries', 'Run on a premium model']],
+        '140 people in Advisory': [['People in Advisory', '140'], ['Hold both chat assistants', 'Each']],
+        'Repeated identical requests': [['Repeated identical requests', 'Proposal drafting'], ['Result', 'Avoidable AI usage']],
+        '212 Microsoft Copilot': [['Microsoft Copilot seats', '212'], ['Not used for', '60 days']]
+      };
+      function evRows(text, ev) {
+        var k = Object.keys(EVROWS).filter(function (p) { return text.indexOf(p) === 0; })[0];
+        if (k) return EVROWS[k].map(function (r) { return '<div class="fd-evi__row"><span>' + esc(r[0]) + '</span><b>' + esc(r[1]) + '</b></div>'; }).join('');
+        return ev.map(function (x) { return '<div class="fd-evi__row"><span>' + esc(x) + '</span></div>'; }).join('');
+      }
+      /* The full page words each part as a short headline plus one line, not the panel's question and answer. Same facts as the panel. */
+      var FIX = {
+        'The client-intake agent': [['The client-intake agent has no named owner', 'Found 14 Sep, under Agents with a named owner: is someone accountable for every agent?'], ['Nobody answers for client requests', 'Nobody is accountable for what this agent does with client requests. 1 of the 4 points Safe use lost in September.'], ['Name an owner for the agent', 'The executive team decides who owns this agent; the AI owner records it in Cygnos.']],
+        '14 AI seats': [['14 seats across 3 tools belong to people who have left', 'Found 9 Oct, under Access after people leave: does AI access end when someone leaves?'], ['Former staff can still reach company data through AI', 'This is 3 of the 4 points Safe use lost in September, because 3 of the seats were used in September.'], ['Remove the 14 seats and update the leaving checklist', 'IT should remove these 14 seats by Fri 16 Oct, and add AI tools to the leaving checklist so this does not recur.']],
+        '2 seats show': [['2 seats look like a shared login', 'Their use pattern is consistent with more than one person using one login.'], ['It is harder to say who used the seats', 'A shared login makes it unclear who did what.'], ['Investigate who uses the 2 seats', 'Check with the IT admin team, and give each person their own seat if the login is shared.']],
+        'Managed Services': [['Cost per ticket is above its normal range', 'It has been above range for four months.'], ['AI use doubled, with no sign yet that AI is part of the rise', 'The cause of the rise is unknown.'], ['Investigate what is behind the rise', 'Cause is unknown. Look into what changed, then share what you find with the Managed Services head.']],
+        'The support agent retried': [['The support agent kept retrying failing calls', '4,100 retries between 2 and 8 October, none of them giving a usable answer.'], ['People waiting may have seen slow or missing replies', 'Each retry used a call without giving anyone a usable answer.'], ['Put a limit on retries', 'Look at the errors behind the failing calls, set the limit, and agree the fix with the IT admin team.']],
+        'An AI note-taking tool': [['An unapproved note-taking tool is in weekly use', 'One team uses it every week, and it is not on the company\u2019s approved list.'], ['Work content may be going to an unreviewed tool', 'Meeting notes and other work content may be shared with a tool not reviewed for security or data handling.'], ['Review the tool, then approve it or replace it', 'Check it against the company\u2019s security terms, then approve it or move the team to an approved alternative.']],
+        'Two vendor outages': [['Two vendor outages stopped the support agent', 'The agent was down for 47 minutes across both outages in September.'], ['Nobody could get answers while it was down', 'Anyone relying on the agent could not get answers from it during the outages.'], ['Agree a fallback and ask the vendor what happened', 'Decide what to use when the vendor is down, and ask how a repeat will be prevented.']],
+        'The proposal-writing assistant': [['The proposal-writing assistant has slowed down', 'It has taken 44% longer to answer since 2 October.'], ['Proposals take longer to draft', 'People wait longer for each answer, which slows their work.'], ['Investigate what changed around 2 October', 'Cause is unknown. Look at the model, the vendor and how the assistant is used, then share what you find with the Advisor team.']],
+        '28 seats across': [['28 paid seats have gone unused', 'Across ChatGPT and Claude, with no use for 60 days.'], ['The company pays for access nobody uses', 'These seats are paid for but not being used.'], ['Review the seats and reclaim what is not needed', 'Check the 28 seats with the people they were assigned to, then reclaim or reassign any that are no longer needed.']],
+        '2 internal tools': [['Two internal tools run on a personal API key', 'They use a personal key, not the company\u2019s key.'], ['Usage sits outside company controls', 'A personal key is outside company billing and access controls, and may stop working if that person leaves.'], ['Move both tools to the company key', 'Remove the personal key once both tools have switched.']],
+        'Short internal summaries': [['Short summaries run on a premium model', 'Short internal summaries use a premium model.'], ['Summaries may cost more than they need to', 'A lower-cost model might do the same job.'], ['Test a lower-cost model for short summaries', 'If it gives the same quality, route short summaries to that model.']],
+        '140 people in Advisory': [['140 people hold both chat assistants', 'People in Advisory have licences for both.'], ['Two paid licences for the same kind of tool', 'Each of these people holds both.'], ['Confirm who needs both assistants', 'Check with the Advisor team, and remove the second licence where it is not needed.']],
+        'Repeated identical requests': [['Identical requests were sent again and again', 'This happened in proposal drafting and used AI more than needed.'], ['Avoidable AI usage', 'The repeated requests created usage that could have been avoided.'], ['Fixed. No further action is needed', 'Keep an eye on repeated requests in proposal drafting.']],
+        '212 Microsoft Copilot': [['212 Copilot seats went unused', 'Microsoft Copilot seats had no use for 60 days.'], ['Paid-for seats were not being used', 'Cost was spent on seats with no use for 60 days.'], ['Fixed. The unused seats have been dealt with', 'The IT Admin team has dealt with them. Check seat use again in 60 days to catch any new ones.']]
+      };
+      /* A short instruction for the owner, in the same voice as the finding: what to do, then what to hold off on. */
+      var GUIDE = {
+        'The client-intake agent': 'Name an owner for the client-intake agent and record it in Cygnos. Do this before the agent handles more client requests.',
+        '14 AI seats': 'Remove these 14 seats by Fri 16 Oct. Add AI tools to the leaving checklist so this does not recur.',
+        'The support agent retried': 'Review error patterns and retry limits with the application owner. Fix the failures before the agent is used more.',
+        'An AI note-taking tool': 'Review the tool against the company\u2019s security terms with the team that uses it. Approve it or move them to an approved tool before wider use.',
+        '2 seats show': 'Check with the seat holders whether one login is shared. Give each person their own seat before use grows.',
+        'Two vendor outages': 'Agree a fallback for when the vendor is down. Ask the vendor how it will prevent a repeat.',
+        'The proposal-writing assistant': 'Look at what changed around 2 October with the Advisory team: the model, the vendor or how it is used. Share what you find before changing anything else.',
+        'Managed Services': 'Work with the Managed Services head to find what is behind the rise in cost per ticket. Hold off on changes until the cause is known.',
+        '28 seats across': 'Check the 28 seats with the people they were assigned to. Reclaim any seat that is no longer needed.',
+        '2 internal tools': 'Move both tools to the company key. Remove the personal key once both have switched.',
+        'Short internal summaries': 'Test a lower-cost model on short summaries. Switch if the quality holds.',
+        '140 people': 'Confirm with the Advisor team who needs both assistants. Remove the second licence where it is not needed.',
+        'Repeated identical requests': 'Keep an eye on repeated requests in proposal drafting. No further action is needed.',
+        '212 Microsoft': 'Check seat use again in 60 days. Catch any new unused seats early.'
+      };
+      function guideFor(text, d) { var k = Object.keys(GUIDE).filter(function (p) { return text.indexOf(p) === 0; })[0]; return k ? GUIDE[k] : d.st.slice(0, 2).join(' '); }
+      /* How firm the recommended action is: Do this (the evidence shows what to change), Evaluate (weigh it up first), Investigate (cause not clear yet). */
+      var ACTION_TYPE = {
+        'The client-intake agent': 'do', '14 AI seats': 'do', 'The support agent retried': 'inv', 'An AI note-taking tool': 'eval', '2 seats show': 'inv',
+        'Two vendor outages': 'eval', 'The proposal-writing assistant': 'inv', 'Managed Services': 'inv', '28 seats across': 'do', '2 internal tools': 'do',
+        'Short internal summaries': 'eval', '140 people': 'eval', 'Repeated identical requests': 'eval', '212 Microsoft': 'do'
+      };
+      var ACTION_LABEL = { 'do': ['Do this', 3, 'The evidence shows what to change.'], 'eval': ['Evaluate', 2, 'Weigh it up before changing anything.'], 'inv': ['Investigate', 1, 'The cause is not clear yet.'] };
+      function actionTag(text) {
+        var k = Object.keys(ACTION_TYPE).filter(function (p) { return text.indexOf(p) === 0; })[0]; if (!k) return '';
+        var type = ACTION_TYPE[k], a = ACTION_LABEL[type];
+        return '<span class="act-tag act-tag--' + type + '" title="' + a[2] + '">' + a[0] + '</span>';
+      }
+      function fixCards(text, d) {
+        var k = Object.keys(FIX).filter(function (p) { return text.indexOf(p) === 0; })[0];
+        var c = k ? FIX[k] : [[d.f, ''], [d.i, ''], [d.st.join(' '), '']], tags = [['find', 'Finding'], ['imp', 'Impact'], ['act', 'Recommended action']];
+        return c.map(function (x, n) {
+          return '<article class="fd-card"><div class="fd-card__head"><span class="fd-card__t">' + esc(x[0]) + '</span><span class="chip chip--' + tags[n][0] + '">' + tags[n][1] + '</span></div>' + (x[1] ? '<p class="fd-card__d">' + (n === 2 ? actionTag(text) : '') + esc(x[1]) + '</p>' : '') + '</article>';
+        }).join('');
+      }
+      /* Closed findings come with their own dates (placeholders, like the rest): when they were found and when they were closed. */
+      var SIM = {
+        11: { late: false, accept: '06 Oct 2026, 3:15PM', foundD: new Date(2026, 9, 1), endD: new Date(2026, 9, 6) },
+        12: { late: false, fixed: '22 Sep 2026, 3:15PM', foundD: new Date(2026, 8, 19), endD: new Date(2026, 8, 22) },
+        13: { late: false, fixed: '12 Oct 2026, 3:15PM', foundD: new Date(2026, 9, 9), endD: new Date(2026, 9, 12) }
+      };
+      var fdIndex = -1, toastTimer, mini = null, rangeIdx = 1;
+      /* Days-open graph. The line is days open on each day of the chosen range: zero before the finding was found, then one more each day
+         (until it is fixed). Found dates are the same placeholders as the timeline. */
+      var RANGES = [['Last 24 hours', 1], ['Last 7 days', 7], ['Last 30 days', 30], ['Last 3 months', 90], ['Last 12 months', 365]];
+      var CHEV = '<svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>', TICK = '<svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12.5 4.5 4.5L19 7"/></svg>';
+      /* What the graph shows: the finding's own figure, taken from its evidence, over time. A "counter" grows day by day from when it began,
+         a "total" builds up between two known dates, a "step" is the figure from the day the finding was found (and drops to 0 once fixed).
+         Findings with no figure of their own fall back to days open. */
+      var METRICS = {
+        'The client-intake agent': { label: 'Days without a named owner', counter: new Date(2026, 8, 14), unit: 1 },
+        '14 AI seats': { label: 'Active seats for people who have left', step: 14 },
+        'The support agent retried': { label: 'Retries of failing calls', total: 4100, from: new Date(2026, 9, 2), to: new Date(2026, 9, 8) },
+        'An AI note-taking tool': { label: 'Teams using it every week', step: 1 },
+        '2 seats show': { label: 'Seats with a shared-login pattern', step: 2 },
+        'Two vendor outages': { label: 'Minutes the support agent was stopped', step: 47 },
+        'The proposal-writing assistant': { label: 'Slower to answer since 2 October', step: 44, suffix: '%' },
+        'Managed Services': { label: 'Months above the normal cost range', counter: new Date(2026, 5, 15), unit: 30.4375 },
+        '28 seats across': { label: 'Seats unused for 60 days', step: 28 },
+        '2 internal tools': { label: 'Tools on a personal API key', step: 2 },
+        '140 people': { label: 'People holding both chat assistants', step: 140 },
+        '212 Microsoft': { label: 'Copilot seats unused for 60 days', step: 212 }
+      };
+      function metricFor(text) { var k = Object.keys(METRICS).filter(function (p) { return (text || '').indexOf(p) === 0; })[0]; return k ? METRICS[k] : null; }
+      function renderMini() {
+        var m = mini; if (!m) return;
+        var W = RANGES[rangeIdx][1], endT = SAMPLE_TODAY.getTime(), startT = endT - W * 864e5, stop = m.end.getTime(), f = m.found.getTime(), N = 96, pts = [];
+        function ease(x) { x = Math.max(0, Math.min(1, x)); return x * x * (3 - 2 * x); }
+        var mt = metricFor(m.text), DAY = 864e5, fixedAt = m.fixedEnd ? m.end.getTime() : null, headline, label;
+        function val(t) {
+          if (!mt) return Math.max(0, (Math.min(t, stop) - f) / DAY);
+          if (mt.counter) return Math.max(0, (Math.min(t, fixedAt || endT) - mt.counter.getTime()) / DAY / mt.unit);
+          if (mt.total) return t <= mt.from.getTime() ? 0 : t >= mt.to.getTime() ? mt.total : mt.total * (t - mt.from.getTime()) / (mt.to.getTime() - mt.from.getTime());
+          var w = Math.max(0.6 * DAY, W * DAY / 60), v = mt.step * ease((t - (f - w / 2)) / w);
+          return fixedAt ? v * (1 - ease((t - (fixedAt - w / 2)) / w)) : v;
+        }
+        if (!mt) { headline = Math.round((m.end - m.found) / DAY); label = m.closed ? 'Days to fix' : 'Days open'; }
+        else { label = mt.label; headline = mt.counter ? Math.round(val(fixedAt || endT)) : (mt.total || mt.step); headline = headline.toLocaleString('en-US') + (mt.suffix || ''); }
+        var maxV = Math.max(mt ? (mt.counter ? val(fixedAt || endT) : (mt.total || mt.step)) : val(endT), 0.0001);
+        var lastY = 52;
+        /* The line runs across the whole range: zero before the figure begins, then it rises (steps are eased so the climb is smooth). */
+        var t0 = -Infinity, x0 = 0;
+        for (var k = 0; k <= N; k++) {
+          var tk = startT + (endT - startT) * k / N;
+          if (tk < t0 && k < N) continue;
+          lastY = 52 - val(tk) / maxV * 46;
+          if (!pts.length) x0 = 200 * k / N;
+          pts.push((pts.length ? 'L' : 'M') + (200 * k / N).toFixed(1) + ' ' + lastY.toFixed(1));
+        }
+        function lab(t) { var x = new Date(t); return x.getDate() + ' ' + MONTHS[x.getMonth()] + (W >= 365 ? ' ' + String(x.getFullYear()).slice(2) : ''); }
+        document.getElementById('fd-mini').innerHTML =
+          '<div class="fd-mini__top"><div><div class="fd-mini__k">' + label + '</div><div class="fd-mini__v">' + headline + '</div></div>' +
+          '<div class="fd-dd"><button type="button" class="fd-rng" aria-haspopup="listbox" aria-expanded="false">' + RANGES[rangeIdx][0] + CHEV + '</button>' +
+          '<div class="fd-rngmenu" role="listbox" hidden>' + RANGES.map(function (r, n) { return '<button type="button" class="fd-opt" role="option" data-r="' + n + '" aria-selected="' + (n === rangeIdx) + '"><i></i><span>' + r[0] + '</span></button>'; }).join('') + '</div></div></div>' +
+          '<div class="fd-chart"><svg viewBox="0 0 200 56" preserveAspectRatio="none" aria-hidden="true"><defs><linearGradient id="fd-area" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#262626" stop-opacity=".09"/><stop offset="1" stop-color="#262626" stop-opacity="0"/></linearGradient></defs>' +
+          '<path d="M0 6H200M0 29H200" stroke="#eef0f4" stroke-width="1" fill="none" stroke-dasharray="3 3" vector-effect="non-scaling-stroke"/><path d="M0 52H200" stroke="#e3e8ee" stroke-width="1" fill="none" vector-effect="non-scaling-stroke"/>' +
+          '<path d="' + pts.join(' ') + ' L200 52 L' + x0.toFixed(1) + ' 52 Z" fill="url(#fd-area)"/><path d="' + pts.join(' ') + '" stroke="#262626" stroke-width="2" fill="none" stroke-linejoin="round" stroke-linecap="round" vector-effect="non-scaling-stroke"/></svg>' +
+          '<i class="fd-chart__dot" style="top:' + (lastY / 56 * 100).toFixed(1) + '%"></i></div>' +
+          '<div class="fd-mini__ax"><span>' + lab(startT) + '</span><span>' + lab(endT) + '</span></div>';
+        fitMini();
+      }
+      /* Stretch the graph card so its bottom lines up with the rule under the description. */
+      function fitMini() {
+        var d = document.getElementById('fd-desc'), m = document.getElementById('fd-mini'); if (!d || !m || fd.hidden) return;
+        m.style.minHeight = '';
+        if (window.innerWidth <= 900) return;
+        var h = d.getBoundingClientRect().bottom - m.getBoundingClientRect().top; if (h > 0) m.style.minHeight = h + 'px';
+      }
+      window.addEventListener('resize', fitMini);
+      function closeRange() { var b = document.querySelector('#fd-mini .fd-rng'), m = document.querySelector('#fd-mini .fd-rngmenu'); if (m && !m.hidden) { m.hidden = true; b.setAttribute('aria-expanded', 'false'); return true; } return false; }
+      document.getElementById('fd-mini').addEventListener('click', function (e) {
+        var opt = e.target.closest('[data-r]'), btn = e.target.closest('.fd-rng');
+        if (opt) { rangeIdx = +opt.getAttribute('data-r'); renderMini(); }
+        else if (btn) { var m = document.querySelector('#fd-mini .fd-rngmenu'); m.hidden = !m.hidden; btn.setAttribute('aria-expanded', String(!m.hidden)); }
+      });
+      document.getElementById('detail').addEventListener('click', function (e) { if (!e.target.closest('.fd-dd')) closeRange(); });
+      function renderDetail(i) {
+        var tr = rows[i]; if (!tr) return;
+        fdIndex = i;
+        var text = tr.querySelector('.t-text').textContent.trim();
+        var d = DATA[text] || { f: text, i: 'Impact has not been written for this finding yet.', ev: [text], st: ['Review this finding with the owner.'] };
+        var owner = tr.cells[1].textContent.trim(), dueTxt = tr.cells[2].textContent.trim();
+        var status = tr.querySelector('.stat').textContent.trim().toLowerCase(), hasDate = /^\d/.test(dueTxt);
+        document.getElementById('fd-id').textContent = '#' + (i + 1);
+        document.getElementById('fd-ttl').textContent = text;
+        var nm = document.getElementById('fd-name'); nm.textContent = text;
+        nm.style.maxWidth = tr.querySelector('.t-text').getBoundingClientRect().width + 'px';
+        document.getElementById('fd-tags').innerHTML =
+          tr.querySelector('.stat').outerHTML +
+          tr.querySelector('.chip').outerHTML +
+          '<span class="fd-tag">' + TAG_ICON.person + esc(owner) + '</span>' +
+          '<span class="fd-tag">' + TAG_ICON.cal + (hasDate ? esc(dueLabel(dueTxt)) : 'No deadline') + '</span>' +
+          tr.querySelector('.prio').outerHTML;
+        document.getElementById('fd-desc').textContent = d.f + ' ' + d.i;
+        document.getElementById('fd-cards').innerHTML = fixCards(text, d);
+        document.getElementById('fd-evi').innerHTML =
+          '<div class="fd-card__head"><span class="fd-card__t">' + QUESTION.ev + '</span><span class="chip chip--ev">Evidence</span></div>' + ((metaFor(text) || {}).evNote ? '<p class="fd-evi__note">' + esc(metaFor(text).evNote) + '</p>' : '') + '<div class="fd-evi__rows">' +
+          evRows(text, d.ev) + '</div><p class="fd-evi__src">' + esc((metaFor(text) || {}).evSrc || 'Source: Cygnos usage records') + '</p>';
+        var sm = SIM[i] || {}, found = sm.foundD || foundOf(parseDue(dueTxt)), closed = status === 'fixed', end = sm.endD ? sm.endD : (closed && !sm.fixed ? addDays(found, 3) : SAMPLE_TODAY);
+        mini = { found: found, end: end, closed: closed, text: text, fixedEnd: closed || (sm.fixed && !!sm.endD) }; renderMini();
+        var OWNER_MSG = { fixed: 'Marked as fixed. Cygnos checks every day that the fix holds, and reopens the finding if it does not.' };
+        document.getElementById('fd-owner').textContent = OWNER_MSG[status] || guideFor(text, d);
+        document.getElementById('fd-tl').innerHTML = timeline(status, owner, dueTxt, tr.querySelector('.chip').textContent.trim(), tlOv(i, text));
+        var ovd = status === 'overdue' && hasDate, cb = document.getElementById('fd-callout');
+        cb.hidden = !ovd;
+        if (ovd) { var mu = addDays(parseDue(dueTxt), 1); cb.innerHTML = '<b>Moved up one level</b><p>Moved up on ' + mu.getDate() + ' ' + MONTHS[mu.getMonth()] + ', the day after its deadline. In the executive team\u2019s Brief from 14 Oct. It stays in their monthly Brief, under \u201CNeeds the executive team\u201D, until it is closed.</p>'; }
+        var mm = metaFor(text) || {}, brief = ovd || !!mm.briefSub;
+        var chipTxt = tr.querySelector('.stat').textContent.trim(), prioTxt = tr.querySelector('.prio').textContent.trim(), dueLine = (hasDate ? esc(dueLabel(dueTxt)) : 'No deadline') + ' · ' + esc(owner);
+        var factorTxt = tr.querySelector('.chip').textContent.trim();
+        document.getElementById('fd-else').innerHTML =
+          '<article class="fd-el"><div><div class="fd-el__k">Monthly Brief</div><div class="fd-el__s">Executive team \u00B7 ' + (brief ? 'issued 14 Oct 2026' : 'in the next Brief') + '</div></div>' +
+          '<div class="fd-el__box"><div class="fd-el__tags">' + (actionTag(text) || '<span class="chip chip--act">Do this</span>') + tr.querySelector('.prio').outerHTML + '</div><div class="fd-el__h">' + esc(text) + '</div><p class="fd-el__p">' + esc(d.st.join(' ')) + '</p>' + (ovd ? '<p class="fd-el__note">Under \u201CNeeds the executive team\u201D, for a decision.</p>' : (mm.briefNote ? '<p class="fd-el__note">' + esc(mm.briefNote) + '</p>' : '')) + '</div>' +
+          '<button type="button" class="tbtn">See the Brief</button></article>' +
+          '<article class="fd-el"><div><div class="fd-el__k">Health statement</div><div class="fd-el__s">Board, clients and investors</div></div>' +
+          '<div class="fd-el__box"><div class="fd-el__row"><span>' + esc(factorTxt) + '</span>' + (ovd || mm.actNow ? '<span class="pill-act">Act now</span>' : tr.querySelector('.prio').outerHTML) + '</div><p class="fd-el__p"><b>Not shown.</b> Findings appear only if you choose to include them.</p></div>' +
+          '<button type="button" class="tbtn">See the health statement</button></article>';
+        var acc = status === 'accepted';
+        document.querySelector('.fd-owner__k').textContent = acc ? 'Reason' : owner;
+        if (acc) document.getElementById('fd-owner').textContent = (SIM[i] && SIM[i].reason) || 'No reason recorded.';
+        /* A button that has been used reads in the past tense. Once fixed or accepted, only that one is left. */
+        document.getElementById('fd-more').hidden = !(acc || status === 'fixed'); document.getElementById('fd-edit').hidden = !acc; document.getElementById('fd-morem').hidden = true; document.getElementById('fd-more').setAttribute('aria-expanded', 'false');
+        var done = status === 'fixed' ? 'fix' : acc ? 'accept' : '';
+        var NOW = { ack: 'Acknowledge', fix: 'Mark as fixed', accept: 'Accept with a reason' }, PAST = { ack: 'Acknowledged', fix: 'Marked as fixed', accept: 'Accepted with a reason' };
+        var off = { ack: ['acknowledged', 'fixed', 'accepted'], fix: ['fixed', 'accepted'], accept: ['fixed', 'accepted'] };
+        Array.prototype.forEach.call(document.querySelectorAll('.fd-act-btn'), function (b) {
+          var k = b.getAttribute('data-act'), past = done === k || (k === 'ack' && status === 'acknowledged');
+          b.hidden = !!done && done !== k; b.textContent = past ? PAST[k] : NOW[k]; b.classList.toggle('is-past', past);
+          b.disabled = off[k].indexOf(status) > -1;
+        });
+      }
+      function openDetail(i) {
+        if (!rows[i]) return;
+        renderDetail(i);
+        closePanel();
+        fd.hidden = false; fd.scrollTop = 0; document.body.style.overflow = 'hidden'; fitMini();
+        document.getElementById('fd-back').focus({ preventScroll: true });
+      }
+      /* Simulated actions: change the row, the page and the timeline, and say so in a toast. Nothing is saved. */
+      var ICONS = {
+        info: '<svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/></svg>',
+        check: '<svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="m8.5 12.5 2.5 2.5 4.5-5"/></svg>'
+      };
+      var ACTION = {
+        ack: { key: 'ack', status: 'acknowledged', cls: 'stat stat--ack', label: 'Acknowledged', tone: 'info', icon: 'info', b: 'Acknowledged.', say: function (o) { return 'The timeline now shows that ' + o + ' has seen it.'; } },
+        fix: { key: 'fixed', status: 'fixed', cls: 'stat stat--fixed', label: 'Fixed', tone: 'success', icon: 'check', b: 'Marked as fixed.', say: function () { return 'Cygnos will check every day that the fix holds.'; } },
+        accept: { key: 'accept', status: 'accepted', cls: 'stat stat--ack', label: 'Accepted', tone: 'neutral', icon: 'check', b: 'Accepted with a reason.', say: function () { return 'The finding is closed.'; } }
+      };
+      function hideToast() { document.getElementById('toast').classList.remove('is-on'); }
+      function showToast(a, owner) {
+        var el = document.getElementById('toast'); el.setAttribute('data-tone', a.tone);
+        document.getElementById('toast-ic').innerHTML = ICONS[a.icon]; document.getElementById('toast-b').textContent = a.b; document.getElementById('toast-t').textContent = a.say(owner);
+        el.classList.add('is-on'); clearTimeout(toastTimer); toastTimer = setTimeout(hideToast, 4200);
+      }
+      document.getElementById('toast-x').addEventListener('click', hideToast);
+      function act(kind, idx, reason, quiet) {
+        if (idx == null) idx = fdIndex;
+        var a = ACTION[kind], tr = rows[idx]; if (!tr) return;
+        var chip = tr.querySelector('.stat'), cur = chip.textContent.trim().toLowerCase(), now = new Date();
+        var sim = SIM[idx] = SIM[idx] || { late: cur === 'overdue' };
+        sim[a.key] = stamp(SAMPLE_TODAY, now.getHours(), now.getMinutes());
+        if (kind === 'accept') { sim.reason = reason || ''; delete sim.fixed; } else if (kind === 'fix') { delete sim.accept; delete sim.reason; }
+        if (kind !== 'ack') delete sim.reopened;
+        chip.className = a.cls; chip.textContent = a.label;
+        if (kind === 'accept') chip.setAttribute('data-tip', 'Accepted with a reason'); else chip.removeAttribute('data-tip');
+        tr.setAttribute('data-status', a.status); if (tr._f) tr._f.status = a.status;
+        /* Fixed or accepted findings leave Open and go to the top of Closed. */
+        if (kind === 'fix' || kind === 'accept') {
+          var cb = document.querySelector('.findings--closed .ftable tbody');
+          if (cb && tr.parentNode !== cb) { cb.insertBefore(tr, cb.firstElementChild); tr.removeAttribute('data-status'); tr.hidden = false; var onTab = document.querySelector('.seg__btn.is-on'); if (onTab) onTab.click(); }
+        }
+        if (!fd.hidden) renderDetail(idx);
+        if (dp.classList.contains('is-open') && current === idx) { var tab = (dp.querySelector('.dp-tab[aria-selected="true"]') || {}).getAttribute('data-tab'); openRow(idx, false); setTab(tab || 'summary'); }
+        if (quiet) return;
+        showToast(a, tr.cells[1].textContent.trim());
+        var on = document.querySelector('.seg__btn.is-on'); if (on) on.click();
+      }
+      /* Bulk actions from the table: apply to every ticked row where it still makes sense, then say so once. */
+      var BULK_SKIP = { ack: ['acknowledged', 'fixed', 'accepted'], fix: ['fixed', 'accepted'], accept: ['fixed', 'accepted'] };
+      var BULK_SAY = { ack: 'Acknowledged', fix: 'Marked as fixed', accept: 'Accepted with a reason' };
+      window.cygBulk = function (kind, trs, reason) {
+        var n = 0;
+        trs.forEach(function (tr) {
+          var i = rows.indexOf(tr); if (i < 0) return;
+          if (BULK_SKIP[kind].indexOf(tr.querySelector('.stat').textContent.trim().toLowerCase()) > -1) return;
+          act(kind, i, reason, true); n++;
+        });
+        var on = document.querySelector('.seg__btn.is-on'); if (on) on.click();
+        showToast({ tone: ACTION[kind].tone, icon: ACTION[kind].icon, b: n ? BULK_SAY[kind] + ' ' + n + (n === 1 ? ' finding.' : ' findings.') : 'Nothing to change.', say: function () { return n ? 'Their timelines are updated.' : 'The selected findings are already past this step.'; } });
+        return n;
+      };
+      /* Accept with a reason opens a side drawer; Submit closes it and records the reason. */
+      var rd = document.getElementById('rd'), rdScrim = document.getElementById('rd-scrim'), rdText = document.getElementById('rd-text'), rdSubmit = document.getElementById('rd-submit'), rdIdx = -1, rdBack = null;
+      var rdEdit = false;
+      function openReason(idx, edit) {
+        var tr = rows[idx]; if (!tr) return;
+        rdIdx = idx; rdBack = document.activeElement; rdEdit = !!edit;
+        document.getElementById('rd-h').textContent = edit ? 'Edit details' : 'Accept with a reason';
+        rdSubmit.textContent = edit ? 'Save' : 'Submit';
+        document.getElementById('rd-lead').textContent = tr.querySelector('.t-text').textContent.trim();
+        rdText.value = edit ? ((SIM[idx] && SIM[idx].reason) || '') : ''; document.getElementById('rd-n').textContent = rdText.value.length; rdSubmit.disabled = !rdText.value.trim();
+        rd.classList.add('is-open'); rdScrim.classList.add('is-open'); rd.setAttribute('aria-hidden', 'false');
+        setTimeout(function () { rdText.focus({ preventScroll: true }); }, 60);
+      }
+      var rdBulk = null;
+      window.cygBulkAccept = function (trs) {
+        rdIdx = -1; rdBack = document.activeElement; rdEdit = false; rdBulk = trs;
+        document.getElementById('rd-h').textContent = 'Accept with a reason'; rdSubmit.textContent = 'Submit';
+        document.getElementById('rd-lead').textContent = trs.length + ' findings selected. The same reason is recorded on each.';
+        rdText.value = ''; document.getElementById('rd-n').textContent = '0'; rdSubmit.disabled = true;
+        rd.classList.add('is-open'); rdScrim.classList.add('is-open'); rd.setAttribute('aria-hidden', 'false');
+        setTimeout(function () { rdText.focus({ preventScroll: true }); }, 60);
+      };
+      function closeReason() {
+        if (!rd.classList.contains('is-open')) return false;
+        rdBulk = null;
+        rd.classList.remove('is-open'); rdScrim.classList.remove('is-open'); rd.setAttribute('aria-hidden', 'true');
+        if (rdBack && rdBack.focus) rdBack.focus({ preventScroll: true });
+        return true;
+      }
+      rdText.addEventListener('input', function () { document.getElementById('rd-n').textContent = rdText.value.length; rdSubmit.disabled = !rdText.value.trim(); });
+      document.getElementById('rd-form').addEventListener('submit', function (e) {
+        e.preventDefault(); var v = rdText.value.trim(); if (!v) return;
+        var idx = rdIdx, bulk = rdBulk; closeReason();
+        if (bulk) { window.cygBulk('accept', bulk, v); if (window.cygClearChecks) window.cygClearChecks(); return; }
+        if (rdEdit) {
+          SIM[idx].reason = v; renderDetail(idx);
+          showToast({ tone: 'info', icon: 'check', b: 'Reason updated.', say: function () { return 'The timeline shows the new reason.'; } });
+        } else act('accept', idx, v);
+      });
+      /* The three-dot menu on the Reason card */
+      var moreBtn = document.getElementById('fd-more'), moreMenu = document.getElementById('fd-morem');
+      function closeMore() { if (moreMenu.hidden) return false; moreMenu.hidden = true; moreBtn.setAttribute('aria-expanded', 'false'); return true; }
+      moreBtn.addEventListener('click', function (e) { e.stopPropagation(); moreMenu.hidden = !moreMenu.hidden; moreBtn.setAttribute('aria-expanded', String(!moreMenu.hidden)); });
+      document.getElementById('fd-edit').addEventListener('click', function () { closeMore(); openReason(fdIndex, true); });
+      /* Reopen: back to Open with all three actions available again. */
+      document.getElementById('fd-reopen').addEventListener('click', function () {
+        closeMore();
+        var tr = rows[fdIndex]; if (!tr) return;
+        var now = new Date(), sim = SIM[fdIndex] = SIM[fdIndex] || { late: false };
+        sim.reopened = stamp(SAMPLE_TODAY, now.getHours(), now.getMinutes()); sim.endD = null;
+        var chip = tr.querySelector('.stat'); chip.className = 'stat stat--reopened'; chip.textContent = 'Reopened'; chip.removeAttribute('data-tip');
+        tr.setAttribute('data-status', 'reopened'); if (tr._f) tr._f.status = 'reopened';
+        var ob = document.querySelector('.findings:not(.findings--closed) .ftable tbody');
+        if (ob && !ob.contains(tr)) { ob.insertBefore(tr, ob.firstElementChild); tr.hidden = false; }
+        renderDetail(fdIndex);
+        showToast({ tone: 'info', icon: 'info', b: 'Reopened.', say: function () { return 'The finding is back in Open, and all three actions are available again.'; } });
+        var onTab = document.querySelector('.seg__btn.is-on'); if (onTab) onTab.click();
+      });
+      document.getElementById('detail').addEventListener('click', function () { closeMore(); });
+      document.getElementById('rd-cancel').addEventListener('click', closeReason);
+      document.getElementById('rd-close').addEventListener('click', closeReason);
+      rdScrim.addEventListener('click', closeReason);
+      window.addEventListener('keydown', function (e) { if (e.key === 'Escape' && closeReason()) { e.stopPropagation(); e.preventDefault(); } }, true);
+      function ask(kind, idx) { if (kind === 'accept') openReason(idx == null ? fdIndex : idx); else act(kind, idx); }
+      Array.prototype.forEach.call(document.querySelectorAll('[data-pact]'), function (b) { b.addEventListener('click', function () { if (current > -1) ask(b.getAttribute('data-pact'), current); }); });
+      Array.prototype.forEach.call(document.querySelectorAll('.fd-act-btn'), function (b) { b.addEventListener('click', function () { ask(b.getAttribute('data-act')); }); });
+      function closeDetail() { if (fd.hidden) return; fd.hidden = true; document.body.style.overflow = ''; }
+      document.getElementById('dp-open').addEventListener('click', function () { if (current > -1) openDetail(current); });
+      document.getElementById('fd-back').addEventListener('click', closeDetail);
+      document.getElementById('fd-copy').addEventListener('click', function () {
+        var url = location.href.split('#')[0] + '#finding-' + (fdIndex + 1), done = function () { showToast({ tone: 'info', icon: 'check', b: 'Link copied.', say: function () { return 'Anyone with the file can open this finding.'; } }); };
+        try { navigator.clipboard.writeText(url).then(done, done); } catch (e) { done(); }
+      });
+      document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && !fd.hidden) { e.stopPropagation(); if (!closeRange() && !closeMore()) closeDetail(); } }, true);
+
+      function closePanel() {
+        if (!dp.classList.contains('is-open')) return;
+        dp.classList.remove('is-open'); dp.setAttribute('aria-hidden', 'true'); scrim.classList.remove('is-open');
+        rows.forEach(function (r) { r.classList.remove('is-selected'); });
+        try { history.replaceState(null, '', location.pathname + location.search); } catch (e) {}
+        if (trigger) trigger.focus({ preventScroll: true });
+        current = -1; trigger = null;
+      }
+
+      document.querySelector('.main').addEventListener('click', function (e) {
+        if (e.target.closest('.rowchk')) return;
+        var tr = e.target.closest('.ftable tbody tr'); if (!tr || tr.classList.contains('empty')) return;
+        var i = rows.indexOf(tr); if (i > -1) openRow(i, false);
+      });
+      rows.forEach(function (tr) {
+        var t = tr.querySelector('.t-text'); t.setAttribute('role', 'button'); t.setAttribute('aria-haspopup', 'dialog');
+        t.addEventListener('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openRow(rows.indexOf(tr), true); } });
+      });
+      tabs.forEach(function (b) { b.addEventListener('click', function () { setTab(b.getAttribute('data-tab')); }); });
+      document.getElementById('dp-close').addEventListener('click', closePanel);
+      scrim.addEventListener('click', closePanel);
+      /* Esc: first closes a filter popover that is open, then the panel (runs in the capture phase so it sees them before they close) */
+      document.addEventListener('keydown', function (e) {
+        if (e.key !== 'Escape' || !dp.classList.contains('is-open')) return;
+        if (document.querySelector('.fpop:not([hidden])')) return;
+        closePanel();
+      }, true);
+
+      var m = /^#finding-(\d+)$/.exec(location.hash);
+      if (m) openRow(+m[1] - 1, false);
+    })();
+  </script>
+  <script>
+    /* Counted from the Open findings table below, so the card always agrees with it.
+       One ring, split between the two things that need attention: overdue and critical. */
+    (function () {
+      var arcs = document.getElementById('donut-arcs'), key = document.getElementById('donut-key');
+      if (!arcs || !key) return;
+      var rows = document.querySelectorAll('.findings:not(.findings--closed) .ftable tbody tr:not(.empty)');
+      var parts = [{ k: 'overdue', label: 'Overdue', n: 0 }, { k: 'critical', label: 'Critical', n: 0 }], total = 0, NS = 'http://www.w3.org/2000/svg';
+      Array.prototype.forEach.call(rows, function (r) {
+        if (r.querySelector('.stat--overdue')) parts[0].n++;
+        if (r.querySelector('.prio--critical')) parts[1].n++;
+      });
+      parts.forEach(function (p) { total += p.n; });
+      var R = 51, gap = parts.filter(function (p) { return p.n; }).length > 1 ? 2 * total / (2 * Math.PI * R) : 0, start = 0;
+      parts.forEach(function (p) {
+        if (p.n) {
+          var c = document.createElementNS(NS, 'circle'), tt = document.createElementNS(NS, 'title');
+          c.setAttribute('class', 'dn--' + p.k); c.setAttribute('cx', 60); c.setAttribute('cy', 60); c.setAttribute('r', R); c.setAttribute('pathLength', total);
+          c.setAttribute('stroke-dasharray', (p.n - gap).toFixed(3) + ' ' + total); c.setAttribute('stroke-dashoffset', (-(start + gap / 2)).toFixed(3));
+          tt.textContent = p.label + ': ' + p.n; c.appendChild(tt); arcs.appendChild(c);
+        }
+        start += p.n;
+        var li = document.createElement('li'); li.className = 'dn--' + p.k;
+        li.innerHTML = '<i></i>' + p.label + '<b>' + p.n + '</b>'; key.appendChild(li);
+      });
+    })();
+  </script>
+  <script>
+    /* Keeps the "…" tight against the last letter. The browser cuts the text wherever the box ends, which can leave a space before the dots;
+       this narrows each box to the longest cut that ends on a letter, so the gap to the factor tag looks the same on every row. */
+    (function () {
+      var cells = Array.prototype.slice.call(document.querySelectorAll('.t-issue'));
+      var probe = document.createElement('span');
+      probe.style.cssText = 'position:absolute;visibility:hidden;white-space:pre;left:-9999px;top:0';
+      document.body.appendChild(probe);
+      function fit(td) {
+        var el = td.querySelector('.t-text'); if (!el || !td.offsetWidth) return;
+        el.style.width = '';
+        if (el.scrollWidth <= el.clientWidth) return;
+        var full = el.textContent, avail = el.clientWidth, cs = getComputedStyle(el);
+        probe.style.font = cs.font; probe.style.letterSpacing = cs.letterSpacing;
+        var lo = 1, hi = full.length, best = 1;
+        while (lo <= hi) {
+          var mid = (lo + hi) >> 1;
+          probe.textContent = full.slice(0, mid).replace(/\s+$/, '') + '\u2026';
+          if (probe.getBoundingClientRect().width <= avail) { best = mid; lo = mid + 1; } else hi = mid - 1;
+        }
+        probe.textContent = full.slice(0, best).replace(/\s+$/, '') + '\u2026';
+        el.style.width = Math.ceil(probe.getBoundingClientRect().width) + 'px';
+      }
+      function run() { cells.forEach(fit); }
+      if (window.ResizeObserver) { var ro = new ResizeObserver(run); cells.forEach(function (c) { ro.observe(c); }); }
+      window.addEventListener('resize', run);
+      if (document.fonts && document.fonts.ready) document.fonts.ready.then(run);
+      run();
+    })();
+  </script>
+  <script>
+    /* Overview opens in the same page: the sidebar links switch between it and Findings without leaving the preview. */
+    (function () {
+      var main = document.querySelector('.main'), links = document.querySelectorAll('.side .nav .nav__item'), ovLink = links[0], fLink = links[1];
+      function show(ov) {
+        main.classList.toggle('is-ov', ov);
+        ovLink.classList.toggle('is-active', ov); fLink.classList.toggle('is-active', !ov);
+        if (ov) { ovLink.setAttribute('aria-current', 'page'); fLink.removeAttribute('aria-current'); } else { fLink.setAttribute('aria-current', 'page'); ovLink.removeAttribute('aria-current'); }
+        window.scrollTo(0, 0);
+      }
+      ovLink.addEventListener('click', function (e) { e.preventDefault(); show(true); });
+      fLink.addEventListener('click', function (e) { e.preventDefault(); show(false); });
+      Array.prototype.forEach.call(document.querySelectorAll('[data-go="findings"]'), function (a) { a.addEventListener('click', function (e) { e.preventDefault(); show(false); }); });
+    })();
+  </script>
+  <script>
+    /* Row checkboxes: the header box selects every row currently shown in its table. */
+    (function () {
+      var tables = Array.prototype.slice.call(document.querySelectorAll('.ftable'));
+      function shown(tbl) { return Array.prototype.slice.call(tbl.querySelectorAll('tbody tr:not(.empty)')).filter(function (r) { return !r.hidden && !r.classList.contains('is-pg'); }); }
+      var bar = document.getElementById('bulk');
+      function checkedRows() { return Array.prototype.slice.call(document.querySelectorAll('.ftable tbody tr:not(.empty)')).filter(function (r) { return r.querySelector('.rowchk').checked; }); }
+      function updateBulk() {
+        var n = checkedRows().length; bar.hidden = n < 2;
+        Array.prototype.forEach.call(bar.querySelectorAll('[data-n]'), function (b) { b.textContent = n; });
+      }
+      window.cygClearChecks = function () { Array.prototype.forEach.call(document.querySelectorAll('.rowchk'), function (c) { c.checked = false; c.indeterminate = false; }); tables.forEach(sync); };
+      bar.addEventListener('click', function (e) {
+        var b = e.target.closest('[data-bulk]'); if (!b) return;
+        var trs = checkedRows(), kind = b.getAttribute('data-bulk');
+        if (kind === 'clear') { window.cygClearChecks(); return; }
+        if (kind === 'accept') { window.cygBulkAccept(trs); return; }
+        window.cygBulk(kind, trs); window.cygClearChecks();
+      });
+      function sync(tbl) {
+        var all = tbl.querySelector('.rowchk--all'), rows = shown(tbl), n = rows.filter(function (r) { return r.querySelector('.rowchk').checked; }).length;
+        all.checked = rows.length > 0 && n === rows.length; all.indeterminate = n > 0 && n < rows.length;
+        Array.prototype.forEach.call(tbl.querySelectorAll('tbody tr:not(.empty)'), function (r) { r.classList.toggle('is-checked', r.querySelector('.rowchk').checked); });
+        var ticked = tbl.querySelectorAll('tbody .rowchk:checked').length;
+        tbl.querySelector('.t-head span').textContent = ticked ? ticked + ' selected' : 'Findings';
+        updateBulk();
+      }
+      tables.forEach(function (tbl) {
+        tbl.addEventListener('change', function (e) {
+          if (!e.target.classList.contains('rowchk')) return;
+          if (e.target.classList.contains('rowchk--all')) shown(tbl).forEach(function (r) { r.querySelector('.rowchk').checked = e.target.checked; });
+          sync(tbl);
+        });
+        tbl.addEventListener('keydown', function (e) { if (e.target.classList.contains('rowchk') && e.key === 'Enter') e.stopPropagation(); }, true);
+      });
+      /* filters and tabs hide rows: refresh the header state afterwards */
+      ['click', 'input'].forEach(function (ev) { document.addEventListener(ev, function () { setTimeout(function () { tables.forEach(sync); }, 0); }); });
+    })();
+  </script>
+  <script>
+    /* Pagination, kept separately for the Open and the Closed table. Filters hide rows with [hidden]; paging hides the rest with .is-pg. */
+    (function () {
+      var SIZES = [5, 10, 25, 50], CHEV = '<svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>';
+      var pagers = [];
+      Array.prototype.forEach.call(document.querySelectorAll('.findings .tablewrap'), function (wrap) {
+        var tbl = wrap.querySelector('.ftable'), tbody = tbl.querySelector('tbody'), st = { size: 10, page: 1 };
+        var el = document.createElement('div'); el.className = 'pager';
+        el.innerHTML = '<div class="pager__l"><span>Rows per page</span><div class="fd-dd"><button type="button" class="fd-rng" aria-haspopup="listbox" aria-expanded="false"><span class="pg-size"></span>' + CHEV + '</button><div class="fd-rngmenu" role="listbox" hidden></div></div></div>' +
+          '<div class="pager__r"><span class="pager__range"></span><button type="button" class="pg-btn pg-prev" aria-label="Previous page"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="m15 6-6 6 6 6"/></svg></button><button type="button" class="pg-btn pg-next" aria-label="Next page"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg></button></div>';
+        wrap.parentNode.insertBefore(el, wrap.nextSibling);
+        var btn = el.querySelector('.fd-rng'), menu = el.querySelector('.fd-rngmenu'), prev = el.querySelector('.pg-prev'), next = el.querySelector('.pg-next');
+        function rows() { return Array.prototype.slice.call(tbody.querySelectorAll('tr:not(.empty)')); }
+        function apply() {
+          var all = rows(), vis = all.filter(function (r) { return !r.hidden; }), pages = Math.max(1, Math.ceil(vis.length / st.size));
+          st.page = Math.min(Math.max(st.page, 1), pages);
+          var from = (st.page - 1) * st.size, to = st.page * st.size;
+          all.forEach(function (r) { r.classList.remove('is-pg'); });
+          vis.forEach(function (r, i) { r.classList.toggle('is-pg', i < from || i >= to); });
+          el.querySelector('.pager__range').textContent = vis.length ? (from + 1) + '\u2013' + Math.min(to, vis.length) + ' of ' + vis.length : '0 of 0';
+          el.querySelector('.pg-size').textContent = st.size;
+          prev.disabled = st.page <= 1; next.disabled = st.page >= pages;
+          menu.innerHTML = SIZES.map(function (n) { return '<button type="button" class="fd-opt" role="option" data-n="' + n + '" aria-selected="' + (n === st.size) + '"><i></i><span>' + n + ' rows</span></button>'; }).join('');
+        }
+        function closeMenu() { menu.hidden = true; btn.setAttribute('aria-expanded', 'false'); }
+        btn.addEventListener('click', function (e) { e.stopPropagation(); menu.hidden = !menu.hidden; btn.setAttribute('aria-expanded', String(!menu.hidden)); });
+        menu.addEventListener('click', function (e) { var o = e.target.closest('[data-n]'); if (!o) return; st.size = +o.getAttribute('data-n'); st.page = 1; apply(); closeMenu(); });
+        prev.addEventListener('click', function () { st.page--; apply(); });
+        next.addEventListener('click', function () { st.page++; apply(); });
+        document.addEventListener('click', function (e) { if (!e.target.closest('.pager .fd-dd') || !el.contains(e.target)) closeMenu(); });
+        new MutationObserver(apply).observe(tbody, { attributes: true, attributeFilter: ['hidden'], subtree: true, childList: true });
+        pagers.push(apply); apply();
+      });
+    })();
+  </script>
+  <script>
+    /* Needs attention: how many open findings are overdue or critical, counted from the Open table (a finding that is both counts once in the total). */
+    (function () {
+      var tbody = document.querySelector('.findings:not(.findings--closed) .ftable tbody');
+      if (!tbody) return;
+      function refresh() {
+        var rows = tbody.querySelectorAll('tr:not(.empty)'), od = 0, cr = 0, both = 0;
+        Array.prototype.forEach.call(rows, function (r) {
+          var o = !!r.querySelector('.stat--overdue'), c = !!r.querySelector('.prio--critical');
+          if (o) od++; if (c) cr++; if (o || c) both++;
+        });
+        document.getElementById('attn-overdue').textContent = od; document.getElementById('attn-critical').textContent = cr; document.getElementById('attn-total').textContent = both;
+      }
+      new MutationObserver(refresh).observe(tbody, { childList: true, subtree: true, characterData: true, attributes: true, attributeFilter: ['class', 'data-status'] });
+      refresh();
+      var rowsBtn = document.querySelectorAll('.attn__row');
+      function paint() { var on = window.cygQuickState && window.cygQuickState(); Array.prototype.forEach.call(rowsBtn, function (b) { b.setAttribute('aria-pressed', String(b.getAttribute('data-quick') === on)); }); }
+      Array.prototype.forEach.call(rowsBtn, function (b) { b.addEventListener('click', function () { window.cygQuick(b.getAttribute('data-quick')); }); });
+      document.addEventListener('cyg:quick', paint);
+    })();
+  </script>
+</body>
+</html>
